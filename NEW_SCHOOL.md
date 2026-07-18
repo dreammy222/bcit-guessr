@@ -112,6 +112,13 @@ npm run dev:api     # real serverless handlers on :3001 (in-memory sessions,
 npm run dev:local   # vite on :5173, /api proxied to the dev API
 ```
 
+The app refuses to boot (blank page) without a Clerk publishable key; before
+you have a real one, put a syntactically valid placeholder in `.env.local`:
+
+```sh
+echo "VITE_CLERK_PUBLISHABLE_KEY=pk_test_$(printf 'placeholder-dev.clerk.accounts.dev$' | base64)" > .env.local
+```
+
 Guest play, scoring, and round flow all work; auth-gated endpoints 401 until
 Clerk is configured. Use placeholder images (any JPGs in `public/photos/` with
 `photoBaseUrl: '/photos'`) until the real shoot.
