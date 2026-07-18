@@ -9,7 +9,7 @@
     max(24px, env(safe-area-inset-left));
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)),
-    url('/bgr.jpg') center/cover no-repeat;
+    url('/branding/bgr.jpg') center/cover no-repeat;
   display: flex;
   flex-direction: column;
   gap: 20px;

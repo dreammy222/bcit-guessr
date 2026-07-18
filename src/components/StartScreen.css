@@ -57,7 +57,7 @@
 
 .start-screen__background::before {
   inset: -10%;
-  background-image: url('/bg.jpg');
+  background-image: url('/branding/bg.jpg');
   background-size: cover;
   background-position: center;
   will-change: transform;
