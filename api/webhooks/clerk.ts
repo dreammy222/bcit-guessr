@@ -7,6 +7,7 @@ import {
   checkRateLimit,
   sendRateLimitExceeded,
 } from '../_lib/security.js';
+import { LEADERBOARD_KEY } from '../_lib/leaderboardStore.js';
 
 interface ClerkUserWebhookEvent {
   type: string;
@@ -128,7 +129,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-      await kv.zrem('ubc_leaderboard', id);
+      await kv.zrem(LEADERBOARD_KEY, id);
       await kv.del(`user:${id}`);
       await kv.del(`user:${id}:ownedCosmetics`);
       console.log(`[Webhook] Success: Removed data for ${id}`);

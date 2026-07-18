@@ -1,3 +1,4 @@
+import { storageKey } from '../config/storage';
 import { useAuth } from '@clerk/clerk-react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getPhotoUrl } from '../data/photoService';
@@ -11,7 +12,7 @@ export type GamePhase = 'start' | 'playing' | 'round-result' | 'game-summary';
 type PersistedGamePhase = Exclude<GamePhase, 'start'>;
 
 const PHOTO_PRELOAD_WINDOW_SIZE = 2;
-const SESSION_STORAGE_KEY = 'ubc_guessr_single_player_session';
+const SESSION_STORAGE_KEY = storageKey('guessr_single_player_session');
 const SESSION_STORAGE_VERSION = 5;
 
 function warmPhotoCache(photos: PhotoLocation[]) {

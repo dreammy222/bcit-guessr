@@ -1,7 +1,8 @@
 import { kv } from '@vercel/kv';
+import { kvKey } from './serverConfig.js';
 
-const LEADERBOARD_KEY = 'ubc_leaderboard';
-const LEADERBOARD_SNAPSHOT_KEY = 'ubc_leaderboard:top50:snapshot';
+export const LEADERBOARD_KEY = kvKey('leaderboard');
+const LEADERBOARD_SNAPSHOT_KEY = kvKey('leaderboard:top50:snapshot');
 const BEST_SCORE_FIELD = 'bestScore';
 const USERNAME_FIELD = 'username';
 const LEADERBOARD_CACHE_TTL_MS = 10_000;

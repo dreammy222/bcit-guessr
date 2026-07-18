@@ -1,6 +1,7 @@
+import { storageKey } from '../config/storage';
 import type { AvatarState } from '../data/cosmetics';
 
-const AVATAR_CACHE_KEY = 'ubc_guessr_equipped_avatar';
+const AVATAR_CACHE_KEY = storageKey('guessr_equipped_avatar');
 
 export function isAvatarState(value: unknown): value is AvatarState {
   if (!value || typeof value !== 'object') {

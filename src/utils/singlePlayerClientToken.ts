@@ -1,4 +1,5 @@
-const SINGLE_PLAYER_CLIENT_TOKEN_KEY = 'ubc_guessr_single_player_client_token';
+import { storageKey } from '../config/storage';
+const SINGLE_PLAYER_CLIENT_TOKEN_KEY = storageKey('guessr_single_player_client_token');
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;

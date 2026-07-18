@@ -1,6 +1,7 @@
+import { storageKey } from '../config/storage';
 import type { PartyProgressResponse, PartyStatusResponse, PartyViewerRole } from './types';
 
-const PARTY_GUEST_TOKEN_KEY = 'ubc_party_guest_token';
+const PARTY_GUEST_TOKEN_KEY = storageKey('party_guest_token');
 
 export function getOrCreateGuestToken() {
   const existing = localStorage.getItem(PARTY_GUEST_TOKEN_KEY);
@@ -14,19 +15,19 @@ export function getOrCreateGuestToken() {
 }
 
 export function setPartyPlayerKey(joinCode: string, playerKey: string) {
-  localStorage.setItem(`ubc_party_player_${joinCode}`, playerKey);
+  localStorage.setItem(storageKey(`party_player_${joinCode}`), playerKey);
 }
 
 export function getPartyPlayerKey(joinCode: string) {
-  return localStorage.getItem(`ubc_party_player_${joinCode}`) || '';
+  return localStorage.getItem(storageKey(`party_player_${joinCode}`)) || '';
 }
 
 export function setPartyDisplayName(joinCode: string, displayName: string) {
-  localStorage.setItem(`ubc_party_name_${joinCode}`, displayName);
+  localStorage.setItem(storageKey(`party_name_${joinCode}`), displayName);
 }
 
 export function getPartyDisplayName(joinCode: string) {
-  return localStorage.getItem(`ubc_party_name_${joinCode}`) || '';
+  return localStorage.getItem(storageKey(`party_name_${joinCode}`)) || '';
 }
 
 async function readJson<T>(response: Response): Promise<T> {
