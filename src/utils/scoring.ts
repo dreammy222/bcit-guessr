@@ -1,5 +1,5 @@
 /**
- * Scoring utilities for UBC Guessr.
+ * Scoring utilities — constants come from the school config.
  *
  * Distance scoring:
  *   - Max: 2000 points for an exact location
