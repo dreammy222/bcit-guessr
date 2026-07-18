@@ -1,12 +1,6 @@
-export const ROUND_TIMER_SECONDS = 30;
-const DEFAULT_PHOTO_BASE_URL = 'https://ubcguessr.s3.us-west-1.amazonaws.com';
-
-function normalizePhotoBaseUrl(value: string | undefined) {
-  const trimmedValue = value?.trim();
-  return (trimmedValue || DEFAULT_PHOTO_BASE_URL).replace(/\/+$/, '');
-}
-
-const PHOTO_BASE_URL = normalizePhotoBaseUrl(process.env.PHOTO_BASE_URL ?? process.env.PHOTO_CDN_BASE_URL);
+export const ROUND_TIMER_SECONDS = SCHOOL.scoring.roundTimerSeconds;
+import { SCHOOL } from '../../src/config/school.js';
+import { PHOTO_BASE_URL } from './serverConfig.js';
 
 export function haversineDistance(
   lat1: number,
@@ -28,8 +22,8 @@ export function haversineDistance(
 }
 
 export function calculateScore(distanceKm: number, timeRemaining: number): number {
-  const maxPoints = 2000;
-  const curve = 0.46;
+  const maxPoints = SCHOOL.scoring.maxPointsPerRound;
+  const curve = SCHOOL.scoring.falloffC;
   const distanceScore = maxPoints * Math.exp(-(distanceKm * distanceKm) / (2 * curve * curve));
 
   let timeMultiplier = 1.0;

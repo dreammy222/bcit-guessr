@@ -1,3 +1,4 @@
+import { SCHOOL } from '../src/config/school.js';
 import {
   RATE_LIMITS,
   buildRateLimitExceededResponse,
@@ -13,7 +14,7 @@ export const config = {
   runtime: 'edge',
 };
 
-const ROUNDS_PER_GAME = 5;
+const ROUNDS_PER_GAME = SCHOOL.scoring.roundsPerGame;
 
 function sampleWithoutReplacement<T>(items: T[], count: number) {
   const sampleSize = Math.min(count, items.length);

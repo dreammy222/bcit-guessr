@@ -11,14 +11,16 @@
  *   - Drops linearly from 1.0x at 20s remaining to 0.5x at 0s
  */
 
+import { SCHOOL } from '../config/school';
+
 /** Maximum points per round */
-export const MAX_POINTS_PER_ROUND = 2000;
+export const MAX_POINTS_PER_ROUND = SCHOOL.scoring.maxPointsPerRound;
 
 /** Timer duration in seconds */
-export const ROUND_TIMER_SECONDS = 30;
+export const ROUND_TIMER_SECONDS = SCHOOL.scoring.roundTimerSeconds;
 
 /** Number of rounds per game */
-export const ROUNDS_PER_GAME = 5;
+export const ROUNDS_PER_GAME = SCHOOL.scoring.roundsPerGame;
 
 /**
  * Calculates the great-circle distance between two coordinates using the Haversine formula.
@@ -61,7 +63,7 @@ export function haversineDistance(
 export function calculateScore(distanceKm: number, timeRemaining: number): number {
   // Gaussian distance score => 2000 * e^(-(d^2) / (2 * c^2))
   // Choose c so a 150m guess stays close to full credit.
-  const c = 0.46;
+  const c = SCHOOL.scoring.falloffC;
   const distanceScore = MAX_POINTS_PER_ROUND * Math.exp(-(distanceKm * distanceKm) / (2 * c * c));
 
   let timeMultiplier = 1.0;
@@ -77,13 +79,8 @@ export function calculateScore(distanceKm: number, timeRemaining: number): numbe
  */
 export function getScoreTitle(totalScore: number): string {
   const pct = totalScore / (MAX_POINTS_PER_ROUND * ROUNDS_PER_GAME);
-  if (pct >= 0.95) return 'UBC Legend';
-  if (pct >= 0.85) return 'Campus Master';
-  if (pct >= 0.70) return 'UBC Navigator';
-  if (pct >= 0.55) return 'Thunderbird Scout';
-  if (pct >= 0.40) return 'Campus Wanderer';
-  if (pct >= 0.20) return 'First-Year Frosh';
-  return 'Lost on Campus';
+  const ladder = SCHOOL.scoring.titles;
+  return (ladder.find(({ minPct }) => pct >= minPct) ?? ladder[ladder.length - 1]).title;
 }
 
 /** Format a distance for display */

@@ -3,13 +3,9 @@ import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-lea
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapGuess.css';
+import { SCHOOL } from '../config/school';
 
-// UBC campus centre
-const UBC_CENTER: [number, number] = [49.2606, -123.2460];
-const UBC_BOUNDS: [[number, number], [number, number]] = [
-  [49.240, -123.275],
-  [49.285, -123.220],
-];
+const MAP = SCHOOL.map;
 
 const guessIcon = L.divIcon({
   className: '',
@@ -131,12 +127,12 @@ const MapGuess: React.FC<MapGuessProps> = ({
 
         <div className="map-panel__map">
           <MapContainer
-            center={UBC_CENTER}
-            zoom={14}
-            maxBounds={UBC_BOUNDS}
+            center={MAP.center}
+            zoom={MAP.defaultZoom}
+            maxBounds={MAP.bounds}
             maxBoundsViscosity={0.8}
-            minZoom={13}
-            maxZoom={18}
+            minZoom={MAP.minZoom}
+            maxZoom={MAP.maxZoom}
             style={{ width: '100%', height: '100%' }}
             zoomControl={true}
             scrollWheelZoom={true}
@@ -145,8 +141,8 @@ const MapGuess: React.FC<MapGuessProps> = ({
             }}
           >
             <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url={MAP.tileUrl}
+              attribution={MAP.tileAttribution}
               eventHandlers={{
                 load: reportReady,
               }}
