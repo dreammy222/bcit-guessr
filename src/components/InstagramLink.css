@@ -1,0 +1,114 @@
+.instagram-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.instagram-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.instagram-link__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+
+.instagram-link__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Add a subtle glow for premium feel */
+  filter: drop-shadow(0 0 4px rgba(188, 42, 141, 0.4));
+}
+
+.instagram-link--desktop {
+  position: fixed;
+  bottom: max(36px, calc(16px + env(safe-area-inset-bottom)));
+  right: max(36px, env(safe-area-inset-right));
+}
+
+.instagram-link--mobile {
+  position: absolute;
+  bottom: calc(100px + env(safe-area-inset-bottom));
+  right: max(16px, env(safe-area-inset-right));
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.start-screen-mobile__daily-social .instagram-link--mobile {
+  position: static;
+  width: 38px;
+  height: 38px;
+  margin-right: clamp(8px, 3vw, 16px);
+  padding: 8px;
+}
+
+.start-screen-mobile__daily-social .instagram-link--mobile .instagram-link__icon-wrapper {
+  width: 22px;
+  height: 22px;
+}
+
+.start-screen-desktop .instagram-link--desktop {
+  box-sizing: border-box;
+  max-width: calc(100vw - 32px);
+  gap: 10px;
+  padding: 7px 13px;
+  right: calc(
+    var(--start-screen-daily-panel-right, 36px) +
+    var(--start-screen-daily-panel-half-width, 0px)
+  );
+  font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+  transform: translateX(50%);
+}
+
+.start-screen-desktop .instagram-link--desktop:hover {
+  transform: translateX(50%) translateY(-2px);
+}
+
+.start-screen-desktop .instagram-link--desktop .instagram-link__icon-wrapper {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 1120px) {
+  .start-screen-desktop .instagram-link--desktop {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .start-screen-desktop .instagram-link--desktop:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
+}
+
+/* Safe area adjustments are already integrated above for mobile/desktop */
+
+.instagram-link__text {
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}

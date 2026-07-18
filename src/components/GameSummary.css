@@ -1,0 +1,308 @@
+.game-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(100%, 740px);
+  margin: 0 auto;
+  padding:
+    calc(24px + env(safe-area-inset-top))
+    20px
+    calc(24px + env(safe-area-inset-bottom));
+  animation: gameSummaryFadeIn 0.5s ease;
+}
+
+@keyframes gameSummaryFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.game-summary__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.game-summary__logo {
+  margin: 0;
+  color: var(--color-white);
+}
+
+.game-summary__logo span {
+  color: var(--color-gold);
+}
+
+.game-summary__score-ring {
+  position: relative;
+  width: 144px;
+  height: 144px;
+  margin: 8px 0;
+}
+
+.game-summary__ring-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.game-summary__ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.game-summary__score-big {
+  font-weight: 900;
+  font-size: 1.7rem;
+  color: var(--color-gold);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.game-summary__score-max {
+  font-size: 0.68rem;
+  color: var(--color-text-subtle);
+  font-weight: 500;
+}
+
+.game-summary__rounds {
+  background: var(--glass-panel);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-lighter);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.game-summary__rounds-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-subtle);
+  margin: 0;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.game-summary__rounds-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-summary__round-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+}
+
+.game-summary__round-row:last-child {
+  border-bottom: none;
+}
+
+.game-summary__round-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.game-summary__round-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.34);
+  text-align: center;
+}
+
+.game-summary__round-location {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-summary__round-distance {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+.game-summary__round-points {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  white-space: nowrap;
+}
+
+.game-summary__actions {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-return-home {
+  width: min(100%, 220px);
+}
+
+.game-summary__share-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min(100%, 220px);
+}
+
+.game-summary__share-button {
+  width: 100%;
+}
+
+.game-summary__share-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.game-summary__share-feedback {
+  min-height: 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.game-summary__share-feedback--success {
+  color: var(--color-gold-soft);
+}
+
+.game-summary__share-feedback--error {
+  color: #ffd6bb;
+}
+
+.btn-play-again {
+  width: min(100%, 220px);
+}
+
+.game-summary__top-right {
+  position: fixed;
+  top: calc(24px + env(safe-area-inset-top));
+  right: max(24px, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  z-index: 50;
+}
+
+.game-summary__highscore {
+  padding-inline: 16px;
+}
+
+.game-summary__new-highscore {
+  font-size: 0.88rem;
+  animation: gameSummaryPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game-summary__record-score-link {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color var(--transition-fast);
+}
+
+.game-summary__record-score-link:hover {
+  color: var(--color-gold-soft);
+}
+
+@keyframes gameSummaryPopIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .game-summary {
+    width: min(100%, 620px);
+    padding:
+      calc(18px + env(safe-area-inset-top))
+      16px
+      calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .game-summary__top-right {
+    position: static;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .game-summary__logo {
+    font-size: 2.4rem;
+  }
+
+  .game-summary__round-row {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "num location points"
+      ". distance distance";
+    gap: 6px 12px;
+    align-items: start;
+  }
+
+  .game-summary__round-num {
+    grid-area: num;
+  }
+
+  .game-summary__round-location {
+    grid-area: location;
+    white-space: normal;
+  }
+
+  .game-summary__round-distance {
+    grid-area: distance;
+  }
+
+  .game-summary__round-points {
+    grid-area: points;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-summary {
+    padding:
+      calc(16px + env(safe-area-inset-top))
+      12px
+      calc(20px + env(safe-area-inset-bottom));
+    gap: 16px;
+  }
+
+  .game-summary__logo {
+    font-size: 2rem;
+  }
+
+  .game-summary__score-ring {
+    width: 120px;
+    height: 120px;
+  }
+
+  .btn-return-home,
+  .game-summary__share-action,
+  .btn-play-again {
+    max-width: 320px;
+  }
+}

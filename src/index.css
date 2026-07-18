@@ -1,0 +1,261 @@
+:root {
+  --color-brand-navy: #1a2a44;
+  --color-brand-navy-hover: #233759;
+  --color-navy: #002145;
+  --color-navy-dark: #000f21;
+  --color-navy-medium: #001733;
+  --color-gold: #FFB800;
+  --color-gold-strong: #FFD100;
+  --color-gold-dark: #e6bc00;
+  --color-gold-soft: #ffe39a;
+  --color-white: #ffffff;
+  --color-off-white: #f8fafc;
+  --color-ink: #102a43;
+  --color-danger: #ef4444;
+  --color-warning: #f97316;
+  --color-success: #22c55e;
+  --color-text-muted: rgba(255, 255, 255, 0.72);
+  --color-text-subtle: rgba(255, 255, 255, 0.5);
+  --color-border-light: rgba(255, 255, 255, 0.16);
+  --color-border-lighter: rgba(255, 255, 255, 0.08);
+  --color-border-gold: rgba(255, 184, 0, 0.28);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-panel: 0 18px 50px rgba(0, 0, 0, 0.28);
+  --shadow-overlay: 0 28px 80px rgba(0, 0, 0, 0.42);
+  --shadow-button: 0 12px 28px rgba(0, 0, 0, 0.22);
+
+  --gradient-gold: linear-gradient(135deg, #FFB800 0%, #FFD66F 100%);
+  --gradient-summary-bg: radial-gradient(ellipse at top, #001733 0%, #000a1a 100%);
+  --glass-panel: rgba(0, 20, 50, 0.82);
+  --glass-panel-strong: rgba(9, 31, 74, 0.86);
+  --glass-panel-soft: rgba(255, 255, 255, 0.1);
+  --focus-ring: 0 0 0 3px rgba(255, 184, 0, 0.35);
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-standard: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  font-size: 16px;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-white);
+  color: var(--color-navy-dark);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(255, 184, 0, 0.2);
+}
+
+#root {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    background: var(--color-navy-dark);
+    overscroll-behavior: none;
+  }
+}
+
+.ui-hero-title {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+}
+
+.ui-page-logo {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    color var(--transition-fast);
+  box-shadow: var(--shadow-button);
+}
+
+.ui-button:hover {
+  transform: translateY(-2px);
+}
+
+.ui-button:active {
+  transform: translateY(0);
+}
+
+.ui-button:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.ui-button--primary {
+  background: var(--gradient-gold);
+  color: var(--color-navy);
+}
+
+.ui-button--primary:hover {
+  filter: saturate(1.04) brightness(1.02);
+}
+
+.ui-button--light {
+  background: var(--color-white);
+  color: var(--color-navy);
+}
+
+.ui-button--light:hover {
+  background: #f2f5f9;
+}
+
+.ui-button--dark {
+  background: var(--color-brand-navy);
+  color: var(--color-white);
+}
+
+.ui-button--dark:hover {
+  background: var(--color-brand-navy-hover);
+}
+
+.ui-button--glass {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--color-border-light);
+  color: var(--color-white);
+  backdrop-filter: blur(12px);
+  box-shadow: none;
+}
+
+.ui-button--glass:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.ui-button--sm {
+  min-height: 42px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+}
+
+.ui-button--md {
+  min-height: 52px;
+  padding: 14px 24px;
+  font-size: 1rem;
+}
+
+.ui-button--lg {
+  min-height: 60px;
+  padding: 16px 30px;
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+}
+
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-gold);
+  background: rgba(0, 20, 50, 0.58);
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ui-badge--gold {
+  background: rgba(255, 184, 0, 0.16);
+  color: var(--color-gold-soft);
+}
+
+.ui-glass-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-light);
+  background: var(--glass-panel-strong);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Fix leaflet marker icon issue with Vite bundler */
+.leaflet-default-icon-path {
+  background-image: url(https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png);
+}

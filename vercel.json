@@ -1,0 +1,14 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-parties",
+      "schedule": "0 12 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/|assets/|@vite/|@react-refresh|src/|node_modules/|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

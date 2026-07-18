@@ -1,0 +1,44 @@
+.app-error {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #f7fafc 0%, #e2e8f0 100%);
+  color: var(--color-ink);
+}
+
+.app-error__card {
+  width: min(640px, 100%);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(16, 42, 67, 0.08);
+  padding: 24px;
+}
+
+.app-error__title {
+  margin: 0 0 12px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.app-error__description {
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+
+.app-error__message {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--color-off-white);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.app-error__button {
+  margin-top: 16px;
+}

@@ -1,0 +1,47 @@
+.party-pill {
+  padding: 6px 20px 6px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 184, 0, 0.92);
+  color: #0d1b3e;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 240px;
+  overflow: hidden;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.party-pill:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 192, 40, 0.98);
+}
+
+.party-pill__avatar {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(13, 27, 62, 0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Position the tall AvatarPreview within the 40x40 circle */
+.party-pill__avatar .avatar-preview {
+  margin-top: 10px; /* Offset to show more of the upper body/head */
+}
+
+.party-pill__name {
+  flex: 1;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}

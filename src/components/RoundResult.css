@@ -1,0 +1,725 @@
+.round-result {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  gap: 14px;
+  animation: roundResultSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes roundResultSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.round-result__label {
+  display: block;
+  max-width: 100%;
+  font-weight: 900;
+  font-size: clamp(1.35rem, 4vw, 2.9rem);
+  color: var(--color-navy-dark);
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.round-result__kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(0, 15, 33, 0.62);
+}
+
+.round-result__performance-popup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 650;
+  pointer-events: none;
+}
+
+.round-result__performance-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(88vw, 520px);
+}
+
+.round-result__performance-group {
+  --round-result-popup-card-width: clamp(320px, 56vw, 460px);
+  --round-result-popup-avatar-width: calc(var(--round-result-popup-card-width) * 0.54);
+  --round-result-popup-avatar-offset-y: calc(var(--round-result-popup-avatar-width) * -0.14);
+  --round-result-popup-card-top: calc(var(--round-result-popup-avatar-width) * 366 / 427);
+  position: relative;
+  width: min(100%, var(--round-result-popup-card-width));
+  min-height: max(
+    calc(var(--round-result-popup-avatar-width) * 584 / 427),
+    calc(var(--round-result-popup-card-top) + 132px)
+  );
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: roundResultRewardBounce 3.24s cubic-bezier(0.22, 1.25, 0.36, 1) both;
+  pointer-events: none;
+}
+
+.round-result__performance-avatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--round-result-popup-avatar-width);
+  transform: translate(-50%, var(--round-result-popup-avatar-offset-y));
+  pointer-events: none;
+}
+
+.round-result__performance-avatar--back {
+  z-index: 1;
+}
+
+.round-result__performance-avatar--front {
+  z-index: 3;
+}
+
+.round-result__performance-avatar--body-overlay {
+  z-index: 4;
+  clip-path: inset(
+    0
+    0
+    calc(100% - (var(--round-result-popup-card-top) - var(--round-result-popup-avatar-offset-y)))
+    0
+  );
+}
+
+.round-result__performance-avatar--sleeves-overlay {
+  z-index: 5;
+}
+
+.round-result__performance-avatar--shirt-overlay {
+  z-index: 6;
+  clip-path: inset(
+    0
+    0
+    calc(100% - (var(--round-result-popup-card-top) - var(--round-result-popup-avatar-offset-y)))
+    0
+  );
+}
+
+.round-result__performance-avatar--head-overlay {
+  z-index: 7;
+}
+
+.round-result__performance-avatar-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.round-result__performance-avatar-layer--body {
+  z-index: 1;
+}
+
+.round-result__performance-avatar-layer--shirt {
+  z-index: 2;
+}
+
+.round-result__performance-avatar-head-group {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.round-result__performance-avatar-layer--head {
+  z-index: 1;
+}
+
+.round-result__performance-avatar-layer--glasses {
+  z-index: 2;
+}
+
+.round-result__performance-avatar-layer--moustache {
+  z-index: 3;
+}
+
+.round-result__performance-avatar-layer--hat {
+  z-index: 4;
+}
+
+.round-result__performance-avatar-layer--arm {
+  z-index: 1;
+}
+
+.round-result__performance-avatar-layer--sleeve {
+  z-index: 2;
+}
+
+.round-result__confetti {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 640;
+  pointer-events: none;
+}
+
+.round-result__confetti-piece {
+  position: absolute;
+  top: -18vh;
+  left: var(--confetti-left);
+  width: var(--confetti-size);
+  height: calc(var(--confetti-size) * 1.7);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: roundResultConfettiFall var(--confetti-duration) linear var(--confetti-delay) 1 both;
+}
+
+.round-result__confetti-piece::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: var(--confetti-color);
+  box-shadow: 0 6px 16px rgba(0, 33, 69, 0.18);
+  transform-origin: center;
+  animation: roundResultConfettiFlutter var(--confetti-flutter-duration) ease-in-out var(--confetti-flutter-delay) infinite alternate;
+}
+
+.round-result__performance-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: var(--round-result-popup-card-top);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: clamp(18px, 2.8vw, 28px) clamp(22px, 4vw, 36px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background:
+    linear-gradient(135deg, rgba(255, 235, 166, 0.97) 0%, rgba(255, 198, 42, 0.96) 44%, rgba(255, 226, 120, 0.94) 100%);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.34),
+    0 0 0 10px rgba(255, 184, 0, 0.12);
+  backdrop-filter: blur(12px);
+  z-index: 2;
+}
+
+@keyframes roundResultRewardBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(44px) scale(0.44) rotate(-7deg);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.08) rotate(1.5deg);
+  }
+
+  32% {
+    transform: translateY(4px) scale(0.95) rotate(-1deg);
+  }
+
+  46% {
+    transform: translateY(-3px) scale(1.02) rotate(0.5deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.92);
+  }
+}
+
+@keyframes roundResultConfettiFall {
+  0% {
+    opacity: 0;
+    transform:
+      translate3d(var(--confetti-drift-start), -14vh, 0)
+      rotate(var(--confetti-rotate-start))
+      scale(0.78);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  34% {
+    transform:
+      translate3d(var(--confetti-drift-mid), 24vh, 0)
+      rotate(var(--confetti-rotate-mid))
+      scale(1);
+  }
+
+  68% {
+    opacity: 1;
+    transform:
+      translate3d(
+        calc((var(--confetti-drift-mid) + var(--confetti-drift-end)) / 2),
+        66vh,
+        0
+      )
+      rotate(calc((var(--confetti-rotate-mid) + var(--confetti-rotate-end)) / 2))
+      scale(0.94);
+  }
+
+  92% {
+    opacity: 1;
+    transform:
+      translate3d(var(--confetti-drift-end), 106vh, 0)
+      rotate(var(--confetti-rotate-end))
+      scale(0.9);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate3d(var(--confetti-drift-end), 124vh, 0)
+      rotate(var(--confetti-rotate-end))
+      scale(0.86);
+  }
+}
+
+@keyframes roundResultConfettiFlutter {
+  from {
+    transform: rotateX(0deg) rotateY(0deg) scaleX(1);
+  }
+
+  to {
+    transform: rotateX(180deg) rotateY(24deg) scaleX(0.72);
+  }
+}
+
+.round-result__location {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-panel);
+  border: 1px solid var(--color-border-light);
+  backdrop-filter: blur(10px);
+  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  color: var(--color-white);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.round-result__map-title {
+  position: absolute;
+  top: clamp(14px, 2vh, 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  max-width: min(48vw, calc(100% - 320px));
+  pointer-events: none;
+}
+
+.round-result__map-round,
+.round-result__map-score {
+  position: absolute;
+  top: clamp(14px, 2vh, 22px);
+  z-index: 500;
+  pointer-events: none;
+}
+
+.round-result__map-round {
+  left: clamp(14px, 1.8vw, 22px);
+}
+
+.round-result__map-score {
+  right: clamp(14px, 1.8vw, 22px);
+}
+
+.round-result__stat-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.round-result__stat-value {
+  font-weight: 800;
+  font-size: clamp(1.85rem, 2vw, 2.3rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.round-result__stat-value--distance {
+  color: var(--color-white);
+}
+
+.round-result__stat-value--points {
+  color: var(--color-gold);
+}
+
+.round-result__stat-value--total {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.round-result__map {
+  flex: 1 1 auto;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+  border: 1px solid rgba(255, 184, 0, 0.15);
+  background: #dbe7f3;
+}
+
+.round-result__leaflet {
+  position: absolute;
+  inset: 0;
+  background: #dbe7f3;
+}
+
+.round-result__leaflet .leaflet-control-zoom {
+  display: none !important;
+}
+
+.round-result__map-legend {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(0, 15, 33, 0.72);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-light);
+  padding: 8px 16px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  z-index: 500;
+  max-width: calc(100% - 24px);
+  color: var(--color-white);
+}
+
+.legend-correct {
+  color: var(--color-success);
+}
+
+.legend-guess {
+  color: var(--color-gold);
+}
+
+.round-result__footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 2px;
+}
+
+.round-result__bottom-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(140px, auto) minmax(260px, auto) minmax(140px, auto);
+  grid-template-areas: "distance button points";
+  align-items: end;
+  justify-content: center;
+  column-gap: clamp(18px, 3vw, 40px);
+}
+
+.round-result__bottom-bar--stats-only {
+  grid-template-columns: repeat(2, minmax(140px, auto));
+  grid-template-areas: "distance points";
+}
+
+.round-result__bottom-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.round-result__bottom-stat--left {
+  grid-area: distance;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.round-result__bottom-stat--right {
+  grid-area: points;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.round-result__note {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.btn-next {
+  grid-area: button;
+  align-self: center;
+  min-width: 240px;
+  width: min(100%, 300px);
+}
+
+@media (max-width: 768px) {
+  .round-result {
+    gap: 12px;
+    min-height: 100%;
+  }
+
+  .round-result__performance-card {
+    padding: 18px 20px;
+    border-radius: 24px;
+    gap: 8px;
+  }
+
+  .round-result__performance-display {
+    width: min(92vw, 440px);
+  }
+
+  .round-result__performance-group {
+    --round-result-popup-card-width: clamp(296px, 76vw, 400px);
+  }
+
+  .round-result__map {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: clamp(320px, 50dvh, 460px);
+  }
+
+  .round-result__map-title {
+    top: 10px;
+    max-width: calc(100% - 188px);
+  }
+
+  .round-result__location {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: clamp(0.92rem, 3.4vw, 1.02rem);
+  }
+
+  .round-result__map-round,
+  .round-result__map-score {
+    top: 10px;
+  }
+
+  .round-result__map-round {
+    left: 10px;
+  }
+
+  .round-result__map-score {
+    right: 10px;
+  }
+
+  .round-result__map-round .game-hud__round-label {
+    font-size: 0.76rem;
+    padding: 7px 11px;
+  }
+
+  .round-result__map-score .game-hud__score--pill {
+    min-height: 34px;
+    min-width: 86px;
+    padding: 4px 12px 5px;
+  }
+
+  .round-result__map-score .game-hud__score-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+  }
+
+  .round-result__map-score .game-hud__score-value {
+    font-size: 0.92rem;
+  }
+
+  .round-result__map-legend {
+    bottom: 8px;
+    gap: 10px;
+    padding: 6px 12px;
+    font-size: 0.68rem;
+  }
+
+  .round-result__bottom-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "button button"
+      "distance points";
+    align-items: start;
+    gap: 14px 16px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .round-result__bottom-bar--stats-only {
+    grid-template-areas: "distance points";
+  }
+
+  .round-result__bottom-stat--left,
+  .round-result__bottom-stat--right {
+    align-items: center;
+    text-align: center;
+  }
+
+  .round-result__stat-label {
+    font-size: 0.68rem;
+  }
+
+  .round-result__stat-value {
+    font-size: clamp(1.55rem, 7vw, 2.05rem);
+  }
+
+  .btn-next {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .round-result__performance-card {
+    padding: 16px 18px;
+  }
+
+  .round-result__performance-display {
+    width: min(94vw, 360px);
+  }
+
+  .round-result__performance-group {
+    --round-result-popup-card-width: clamp(272px, 88vw, 340px);
+  }
+
+  .round-result__map {
+    min-height: clamp(280px, 46dvh, 400px);
+  }
+
+  .round-result__map-title {
+    max-width: calc(100% - 168px);
+  }
+
+  .round-result__location {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.88rem;
+  }
+
+  .round-result__map-round .game-hud__round-label {
+    font-size: 0.72rem;
+    padding: 6px 10px;
+  }
+
+  .round-result__map-score .game-hud__score--pill {
+    min-height: 32px;
+    min-width: 80px;
+    padding: 4px 10px;
+  }
+
+  .round-result__map-score .game-hud__score-label {
+    font-size: 0.56rem;
+  }
+
+  .round-result__map-score .game-hud__score-value {
+    font-size: 0.86rem;
+  }
+
+  .round-result__map-legend {
+    gap: 8px;
+    padding: 5px 10px;
+    font-size: 0.64rem;
+  }
+
+  .round-result__bottom-bar {
+    gap: 12px 14px;
+    max-width: 100%;
+  }
+
+  .round-result__stat-value {
+    font-size: clamp(1.45rem, 8vw, 1.95rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .round-result__confetti {
+    display: none;
+  }
+
+  .round-result__performance-group {
+    animation: roundResultRewardFade 3s ease-out both;
+  }
+}
+
+@keyframes roundResultRewardFade {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Custom result map markers */
+.result-marker {
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.result-marker span {
+  transform: rotate(45deg);
+  letter-spacing: 0.02em;
+}
+
+.result-marker--correct {
+  background: #16a34a;
+  color: white;
+}
+
+.result-marker--guess {
+  background: var(--color-gold);
+  color: var(--color-navy);
+}

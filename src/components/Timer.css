@@ -1,0 +1,160 @@
+.timer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.1s;
+}
+
+.timer--flash {
+  animation: timerFlash 0.3s ease;
+}
+
+@keyframes timerFlash {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.timer__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.timer__count {
+  font-weight: 800;
+  font-size: 1.26rem;
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+  min-width: 32px;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+.timer__count--urgent {
+  color: var(--color-warning);
+}
+
+.timer__count--critical {
+  color: var(--color-danger);
+  animation: pulse 0.5s ease infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
+}
+
+.timer__bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.timer__bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transform-origin: left;
+}
+
+.timer--hud-pill {
+  position: relative;
+  display: block;
+  width: min(220px, 100%);
+  min-height: 56px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.timer__pill-outline {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.timer__pill-track,
+.timer__pill-progress {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.timer__pill-track {
+  stroke: rgba(255, 255, 255, 0.16);
+}
+
+.timer__pill-progress {
+}
+
+.timer__pill-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 6px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: rgba(0, 20, 50, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.timer--hud-pill .timer__count {
+  min-width: 0;
+  font-size: 1.35rem;
+  text-align: center;
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 768px) {
+  .timer--hud-pill {
+    width: min(190px, 100%);
+    min-height: 50px;
+  }
+
+  .timer--hud-pill .timer__count {
+    font-size: 1.2rem;
+  }
+
+  .timer--hud-pill .timer__pill-track,
+  .timer--hud-pill .timer__pill-progress {
+    stroke-width: 5;
+  }
+
+  .timer--hud-pill .timer__pill-body {
+    min-height: 40px;
+    margin: 5px;
+    padding: 9px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer--hud-pill {
+    width: min(168px, 100%);
+    min-height: 44px;
+  }
+
+  .timer--hud-pill .timer__count {
+    font-size: 1.05rem;
+  }
+
+  .timer--hud-pill .timer__pill-track,
+  .timer--hud-pill .timer__pill-progress {
+    stroke-width: 4.5;
+  }
+
+  .timer--hud-pill .timer__pill-body {
+    min-height: 35px;
+    margin: 4.5px;
+    padding: 8px 16px;
+  }
+}
