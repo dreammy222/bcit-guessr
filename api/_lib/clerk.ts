@@ -1,8 +1,6 @@
 import * as jose from 'jose';
 import type { VercelRequest } from '@vercel/node';
 
-const DEFAULT_CLERK_ISSUER = 'https://crisp-mudfish-45.clerk.accounts.dev';
-
 function cleanEnvValue(value: string | undefined) {
   return value?.trim().replace(/^['"]|['"]$/g, '') ?? '';
 }
@@ -38,9 +36,14 @@ const CLERK_ISSUER = normalizeClerkIssuer(
   cleanEnvValue(process.env.CLERK_ISSUER) ||
     cleanEnvValue(process.env.CLERK_FAPI) ||
     cleanEnvValue(process.env.CLERK_FRONTEND_API) ||
-    getIssuerFromJwksUrl(configuredJwksUrl) ||
-    DEFAULT_CLERK_ISSUER,
+    getIssuerFromJwksUrl(configuredJwksUrl),
 );
+
+if (!CLERK_ISSUER || CLERK_ISSUER === 'https://') {
+  throw new Error(
+    'Clerk issuer is not configured. Set CLERK_ISSUER (or CLERK_JWKS_URL) — see .env.example.',
+  );
+}
 const jwksUrl = new URL(configuredJwksUrl || `${CLERK_ISSUER}/.well-known/jwks.json`);
 const JWKS = jose.createRemoteJWKSet(jwksUrl);
 

@@ -2,6 +2,13 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import 'dotenv/config';
 import { config } from 'dotenv';
+
+const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+if (!TABLE_NAME) {
+    console.error("DYNAMO_TABLE_NAME env var is required");
+    process.exit(1);
+}
+
 config({ path: '.env.local' });
 
 const cleanKey = (val) => val ? val.replace(/^"|"$/g, '') : '';
@@ -17,7 +24,7 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 async function checkItem(id) {
     const command = new GetCommand({
-        TableName: "UBCGuessrLocations",
+        TableName: TABLE_NAME,
         Key: { id }
     });
 

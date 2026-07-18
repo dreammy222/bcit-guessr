@@ -12,8 +12,9 @@
  */
 
 import type { PhotoLocation } from './locations';
+import { SCHOOL } from '../config/school';
 
-const DEFAULT_PHOTO_BASE_URL = 'https://ubcguessr.s3.us-west-1.amazonaws.com';
+const DEFAULT_PHOTO_BASE_URL = SCHOOL.backendDefaults.photoBaseUrl;
 
 function normalizePhotoBaseUrl(value: string | undefined) {
   const trimmedValue = value?.trim();

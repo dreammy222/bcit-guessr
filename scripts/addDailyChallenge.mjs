@@ -16,7 +16,11 @@ const client = new DynamoDBClient({
 });
 const docClient = DynamoDBDocumentClient.from(client);
 
-const TABLE_NAME = "UBCGuessrLocations";
+const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+if (!TABLE_NAME) {
+    console.error("DYNAMO_TABLE_NAME env var is required");
+    process.exit(1);
+}
 
 async function addDailyChallengeField() {
     console.log(`Scanning table ${TABLE_NAME}...`);

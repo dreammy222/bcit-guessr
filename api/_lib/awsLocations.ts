@@ -20,7 +20,9 @@ const client = new DynamoDBClient({
 });
 
 const ddbDocClient = DynamoDBDocumentClient.from(client);
-const TABLE_NAME = 'UBCGuessrLocations';
+import { DYNAMO_TABLE } from './serverConfig.js';
+
+const TABLE_NAME = DYNAMO_TABLE;
 const LOCATION_CACHE_TTL_MS = 10 * 60 * 1000;
 const SHOULD_FALLBACK_TO_LOCAL_LOCATIONS = process.env.NODE_ENV !== 'production';
 

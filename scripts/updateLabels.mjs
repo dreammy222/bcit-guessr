@@ -2,6 +2,13 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import 'dotenv/config';
 import { config } from 'dotenv';
+
+const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+if (!TABLE_NAME) {
+    console.error("DYNAMO_TABLE_NAME env var is required");
+    process.exit(1);
+}
+
 config({ path: '.env.local' });
 
 // Initialize AWS Client
@@ -93,7 +100,7 @@ async function updateLabels() {
 
     for (const loc of data) {
         const command = new PutCommand({
-            TableName: "UBCGuessrLocations",
+            TableName: TABLE_NAME,
             Item: {
                 id: loc.id,
                 label: loc.label,

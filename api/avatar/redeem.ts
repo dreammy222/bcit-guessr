@@ -7,20 +7,12 @@ import {
   checkRateLimit,
   sendRateLimitExceeded,
 } from '../_lib/security.js';
+import { PROMO_REWARDS } from '../_lib/serverConfig.js';
 
 export const config = {
   runtime: 'nodejs',
 };
 
-interface PromoReward {
-  cosmeticIds?: string[];
-  coins?: number;
-}
-
-const PROMO_REWARDS: Record<string, PromoReward> = {
-  HKSA2026: { cosmeticIds: ['hksa_cap', 'hksa_shirt'] },
-  UBCGUESSR: { coins: 5000 },
-};
 
 function normalizePromoCode(value: unknown) {
   return typeof value === 'string' ? value.trim().toUpperCase() : '';

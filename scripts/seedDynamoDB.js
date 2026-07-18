@@ -17,22 +17,17 @@ const client = new DynamoDBClient({
 });
 const docClient = DynamoDBDocumentClient.from(client);
 
-// Parse locations directly from file to avoid TS import issues
-const locationsPath = path.join(__dirname, '../src/data/locations.ts');
-const fileContent = fs.readFileSync(locationsPath, 'utf8');
-
-const regex = /{ id: '([^']+)', filename: '([^']+)', coordinates: \[([\d.-]+), ([\d.-]+)\], label: '([^']+)' }/g;
-let match;
-const locationsToMigrate = [];
-
-while ((match = regex.exec(fileContent)) !== null) {
-    locationsToMigrate.push({
-        id: match[1],
-        lat: parseFloat(match[3]),
-        lng: parseFloat(match[4]),
-        label: match[5]
-    });
+const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+if (!TABLE_NAME) {
+    console.error('DYNAMO_TABLE_NAME env var is required (e.g. DYNAMO_TABLE_NAME=SFUGuessrLocations node scripts/seedDynamoDB.js)');
+    process.exit(1);
 }
+
+const LOCATIONS_FILE = process.env.LOCATIONS_FILE || 'locations.ubc.json';
+const locationsPath = path.join(__dirname, '../src/data', LOCATIONS_FILE);
+const locationsToMigrate = JSON.parse(fs.readFileSync(locationsPath, 'utf8'))
+    .filter((loc) => Array.isArray(loc.coordinates))
+    .map((loc) => ({ id: loc.id, lat: loc.coordinates[0], lng: loc.coordinates[1], label: loc.label ?? '' }));
 
 console.log(`Found ${locationsToMigrate.length} locations to migrate. Starting upload...`);
 
@@ -41,7 +36,7 @@ async function migrate() {
     
     for (const loc of locationsToMigrate) {
         const command = new PutCommand({
-            TableName: "UBCGuessrLocations",
+            TableName: TABLE_NAME,
             Item: {
                 id: loc.id,
                 coordinates: [loc.lat, loc.lng],
