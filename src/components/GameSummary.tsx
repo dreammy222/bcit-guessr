@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { LOGO } from '../config/school';
 import { SignedIn, SignedOut, SignInButton, UserButton, useAuth, useUser } from '@clerk/clerk-react';
 import type { RoundResult } from '../hooks/useGameState';
 import { createEmptyAvatarState, type AvatarState } from '../data/cosmetics';
@@ -186,7 +187,7 @@ const GameSummary: React.FC<GameSummaryProps> = ({
 
       <div className="game-summary__hero">
         <div className="game-summary__logo ui-page-logo">
-          UBC<span>Guessr</span>
+          {LOGO.prefix}<span>{LOGO.suffix}</span>
         </div>
         <div className="game-summary__score-ring">
           <svg viewBox="0 0 120 120" className="game-summary__ring-svg">

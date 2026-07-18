@@ -1,4 +1,5 @@
 import type { RoundResult } from '../hooks/useGameState';
+import { LOGO, SCHOOL } from '../config/school';
 import {
   BASE_AVATAR_HEAD_ASSET_PATH,
   BASE_AVATAR_LEFT_ARM_ASSET_PATH,
@@ -160,8 +161,8 @@ function drawLogo(context: CanvasRenderingContext2D) {
   context.font = "900 64px 'Inter', system-ui, sans-serif";
   context.textBaseline = 'top';
 
-  const prefix = 'UBC';
-  const suffix = 'Guessr';
+  const prefix = LOGO.prefix;
+  const suffix = LOGO.suffix;
   const prefixWidth = context.measureText(prefix).width;
   const suffixWidth = context.measureText(suffix).width;
   const totalWidth = prefixWidth + suffixWidth;
@@ -493,8 +494,8 @@ export function createScoreSharePayload(
   avatar: AvatarState | null
 ): ScoreSharePayload {
   return {
-    title: 'UBCGuessr',
-    fileName: `ubc-guessr-endcard-${Math.max(0, Math.round(totalScore))}.png`,
+    title: SCHOOL.gameName,
+    fileName: `${SCHOOL.slug}-guessr-endcard-${Math.max(0, Math.round(totalScore))}.png`,
     totalScore,
     maxScore,
     results,

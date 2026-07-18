@@ -1,4 +1,5 @@
 import React from 'react';
+import { LOGO, SCHOOL } from '../config/school';
 import { SignInButton, UserButton } from '@clerk/clerk-react';
 import Leaderboard from './Leaderboard';
 import DailyChallengeCard from './DailyChallengeCard';
@@ -111,10 +112,10 @@ const StartScreenDesktop: React.FC<StartScreenLayoutProps> = ({
         <div className="start-screen-desktop__content">
           <div className="start-screen-desktop__title-block">
             <h1 className="start-screen-desktop__title ui-hero-title">
-              <em>UBC</em>
-              <span>Guessr</span>
+              <em>{LOGO.prefix}</em>
+              <span>{LOGO.suffix}</span>
             </h1>
-            <p className="start-screen-desktop__subtitle">Know Your Campus</p>
+            <p className="start-screen-desktop__subtitle">{SCHOOL.tagline}</p>
           </div>
 
           <div className="start-screen-desktop__auth-group">

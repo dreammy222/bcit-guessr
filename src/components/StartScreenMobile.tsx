@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { LOGO, SCHOOL } from '../config/school';
 import { SignInButton, UserButton } from '@clerk/clerk-react';
 import Leaderboard from './Leaderboard';
 import DailyChallengeCard from './DailyChallengeCard';
@@ -176,10 +177,10 @@ const StartScreenMobile: React.FC<StartScreenLayoutProps> = ({
             <div className="start-screen-mobile__pane-content">
               <div className="start-screen-mobile__title-block">
                 <h1 className="start-screen-mobile__title ui-hero-title">
-                  <em>UBC</em>
-                  <span>Guessr</span>
+                  <em>{LOGO.prefix}</em>
+                  <span>{LOGO.suffix}</span>
                 </h1>
-                <p className="start-screen-mobile__subtitle">Know Your Campus</p>
+                <p className="start-screen-mobile__subtitle">{SCHOOL.tagline}</p>
               </div>
 
               <div className="start-screen-mobile__actions">

@@ -118,3 +118,11 @@ export const SCHOOL: SchoolConfig = {
 
   cosmeticsPackId: 'ubc',
 };
+
+/**
+ * Two-part logo rendering (accented prefix + plain suffix), derived from the
+ * game name: 'UBCGuessr' → { prefix: 'UBC', suffix: 'Guessr' }.
+ */
+export const LOGO = SCHOOL.gameName.startsWith(SCHOOL.shortName)
+  ? { prefix: SCHOOL.shortName, suffix: SCHOOL.gameName.slice(SCHOOL.shortName.length) }
+  : { prefix: SCHOOL.gameName, suffix: '' };
