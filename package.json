@@ -7,7 +7,9 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:api": "tsx scripts/devApi.mjs",
+    "dev:local": "VITE_DEV_API_PROXY=http://localhost:3001 vite"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1006.0",
@@ -33,6 +35,7 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.1",
     "typescript": "^5.5.3",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "tsx": "^4.19.0"
   }
 }

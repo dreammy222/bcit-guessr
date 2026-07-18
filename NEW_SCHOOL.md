@@ -102,6 +102,20 @@ AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... node scripts/seedDynamoDB.js
 Optional: mark a location as a daily challenge with
 `scripts/addDailyChallenge.mjs` (same env vars).
 
+## Local development without any backends
+
+The game is fully playable locally before you create a single cloud account:
+
+```sh
+npm run dev:api     # real serverless handlers on :3001 (in-memory sessions,
+                    # local locations JSON, no Clerk/AWS/KV/Supabase needed)
+npm run dev:local   # vite on :5173, /api proxied to the dev API
+```
+
+Guest play, scoring, and round flow all work; auth-gated endpoints 401 until
+Clerk is configured. Use placeholder images (any JPGs in `public/photos/` with
+`photoBaseUrl: '/photos'`) until the real shoot.
+
 ## 8. Ship it
 
 ```sh

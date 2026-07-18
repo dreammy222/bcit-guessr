@@ -20,7 +20,9 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: SCHOOL.siteUrl,
+        // Point at the local dev API (npm run dev:api) when set; otherwise
+        // proxy to the deployed site so /api works against production.
+        target: process.env.VITE_DEV_API_PROXY || SCHOOL.siteUrl,
         changeOrigin: true,
       },
     },
