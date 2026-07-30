@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getOptionalClerkUser, requireClerkUser } from './_lib/clerk.js';
-import type { PartyViewerRole } from '../src/party/types';
+import type { PartyViewerRole } from '../src/party/types.js';
 import {
   advancePartySession,
   buildPartyProgressResponse,

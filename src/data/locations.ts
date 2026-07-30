@@ -6,7 +6,7 @@
  * Only photos with non-null coordinates are used in gameplay.
  */
 
-import rawLocations from './locations.bcit.json';
+import rawLocations from './locations.bcit.json' with { type: 'json' };
 
 export interface PhotoLocation {
   /** Unique identifier (matches filename without extension) */

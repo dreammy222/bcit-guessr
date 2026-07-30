@@ -1,4 +1,4 @@
-import type { PartyViewerRole } from '../../src/party/types';
+import type { PartyViewerRole } from '../../src/party/types.js';
 
 export const MAX_DISPLAY_NAME_LENGTH = 40;
 export const MAX_LEADERBOARD_USERNAME_LENGTH = 40;
