@@ -185,6 +185,7 @@
 
 .start-screen-desktop__title span {
   color: var(--color-gold);
+  text-shadow: var(--accent-text-shadow);
 }
 
 .start-screen-desktop__subtitle {
@@ -810,9 +811,9 @@
   flex: 0 0 auto;
   min-height: 34px;
   padding: 8px 12px;
-  border: 1px solid rgba(255, 214, 111, 0.34);
+  border: 1px solid var(--color-gold-tint-border);
   border-radius: var(--radius-pill);
-  background: rgba(255, 184, 0, 0.16);
+  background: var(--color-gold-tint);
   color: var(--color-gold-soft);
   font-size: 0.82rem;
   font-weight: 800;
@@ -894,7 +895,7 @@
 
 .avatar-modal__tab--active,
 .avatar-modal__tab--active:hover {
-  background: rgba(255, 184, 0, 0.16);
+  background: var(--color-gold-tint);
   border-color: rgba(255, 214, 111, 0.34);
   color: var(--color-gold-soft);
   transform: none;

@@ -5,24 +5,32 @@
      = highlight color. Everything below the palette section is
      shared product styling and should not need per-school edits.
      ============================================================ */
-  /* BCIT brand: #003e6b blue (bcit.ca's own theme-color) + #fff200 yellow.
-     The blue ramp is tinted from #003e6b; the yellow is softened slightly
-     for large fills, since full #fff200 vibrates against dark blue. */
+  /* BCIT brand: #003e6b blue (bcit.ca's own theme-color).
+     Accent is white rather than the logo yellow — see --color-accent-outline
+     below, which keeps white readable on light map tiles and bright photos. */
   --color-brand-navy: #124267;
   --color-brand-navy-hover: #1a5484;
   --color-navy: #003e6b;
   --color-navy-dark: #001a2e;
   --color-navy-medium: #002b4a;
-  --color-gold: #ffe814;
-  --color-gold-strong: #fff200;
-  --color-gold-dark: #d4c800;
-  --color-gold-soft: #fff89e;
-  --color-border-gold: rgba(255, 242, 0, 0.28);
-  --gradient-gold: linear-gradient(135deg, #ffe814 0%, #fff67a 100%);
+  --color-gold: #ffffff;
+  --color-gold-strong: #ffffff;
+  --color-gold-dark: #d7e3ee;
+  --color-gold-soft: #e9f1f8;
+  --color-border-gold: rgba(255, 255, 255, 0.32);
+  --gradient-gold: linear-gradient(135deg, #ffffff 0%, #e4edf6 100%);
   --gradient-summary-bg: radial-gradient(ellipse at top, #002b4a 0%, #00101d 100%);
   --glass-panel: rgba(0, 34, 58, 0.82);
   --glass-panel-strong: rgba(8, 50, 82, 0.86);
-  --focus-ring: 0 0 0 3px rgba(255, 242, 0, 0.35);
+  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.45);
+  --color-gold-tint: rgba(255, 255, 255, 0.18);
+  --color-gold-tint-border: rgba(255, 255, 255, 0.38);
+  /* White accent needs help on light surfaces: a black outline on
+     accent-filled controls, a black result-map marker border, and a dark
+     shadow behind accent text over the whitened start-screen backdrop. */
+  --color-accent-outline: #000000;
+  --color-marker-outline: #000000;
+  --accent-text-shadow: 0 2px 12px rgba(0, 20, 38, 0.65);
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;
@@ -182,6 +190,8 @@ a {
 .ui-button--primary {
   background: var(--gradient-gold);
   color: var(--color-navy);
+  outline: 1px solid var(--color-accent-outline);
+  outline-offset: -1px;
 }
 
 .ui-button--primary:hover {
@@ -254,7 +264,7 @@ a {
 }
 
 .ui-badge--gold {
-  background: rgba(255, 184, 0, 0.16);
+  background: var(--color-gold-tint);
   color: var(--color-gold-soft);
 }
 
