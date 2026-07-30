@@ -31,6 +31,7 @@
   --color-accent-outline: #000000;
   --color-marker-outline: #000000;
   --accent-text-shadow: 0 2px 12px rgba(0, 20, 38, 0.65);
+  --color-selection: rgba(255, 255, 255, 0.24);
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;
@@ -119,7 +120,7 @@ a {
 }
 
 ::selection {
-  background: rgba(255, 184, 0, 0.2);
+  background: var(--color-selection);
 }
 
 #root {
