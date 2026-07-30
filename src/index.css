@@ -5,23 +5,24 @@
      = highlight color. Everything below the palette section is
      shared product styling and should not need per-school edits.
      ============================================================ */
-  /* BCIT: deep blue primary + yellow accent. Verify against BCIT's
-     brand guide before launch — these are a close visual starting point. */
-  --color-brand-navy: #14314f;
-  --color-brand-navy-hover: #1c4269;
-  --color-navy: #003c71;
-  --color-navy-dark: #001c2e;
-  --color-navy-medium: #002a4f;
-  --color-gold: #FFC72C;
-  --color-gold-strong: #FFD65A;
-  --color-gold-dark: #e0a800;
-  --color-gold-soft: #ffe9a8;
-  --color-border-gold: rgba(255, 199, 44, 0.28);
-  --gradient-gold: linear-gradient(135deg, #FFC72C 0%, #FFDE7A 100%);
-  --gradient-summary-bg: radial-gradient(ellipse at top, #002a4f 0%, #00121f 100%);
-  --glass-panel: rgba(0, 32, 64, 0.82);
-  --glass-panel-strong: rgba(10, 46, 88, 0.86);
-  --focus-ring: 0 0 0 3px rgba(255, 199, 44, 0.35);
+  /* BCIT brand: #003e6b blue (bcit.ca's own theme-color) + #fff200 yellow.
+     The blue ramp is tinted from #003e6b; the yellow is softened slightly
+     for large fills, since full #fff200 vibrates against dark blue. */
+  --color-brand-navy: #124267;
+  --color-brand-navy-hover: #1a5484;
+  --color-navy: #003e6b;
+  --color-navy-dark: #001a2e;
+  --color-navy-medium: #002b4a;
+  --color-gold: #ffe814;
+  --color-gold-strong: #fff200;
+  --color-gold-dark: #d4c800;
+  --color-gold-soft: #fff89e;
+  --color-border-gold: rgba(255, 242, 0, 0.28);
+  --gradient-gold: linear-gradient(135deg, #ffe814 0%, #fff67a 100%);
+  --gradient-summary-bg: radial-gradient(ellipse at top, #002b4a 0%, #00101d 100%);
+  --glass-panel: rgba(0, 34, 58, 0.82);
+  --glass-panel-strong: rgba(8, 50, 82, 0.86);
+  --focus-ring: 0 0 0 3px rgba(255, 242, 0, 0.35);
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;

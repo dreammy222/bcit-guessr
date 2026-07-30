@@ -138,7 +138,8 @@ export const SCHOOL: SchoolConfig = {
     ],
   },
 
-  themeColor: '#000f21',
+  // Darkest tone of the BCIT blue ramp in src/index.css.
+  themeColor: '#001a2e',
 
   timezone: 'America/Vancouver',
 
