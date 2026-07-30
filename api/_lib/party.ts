@@ -10,7 +10,7 @@ import type {
   PartyStatusValue,
   PartyTopEntry,
   PartyViewerRole,
-} from '../../src/party/types';
+} from '../../src/party/types.js';
 import { getStoredLocation, listStoredLocations } from './locationStore.js';
 import { insertRows, selectRows, selectSingle, updateRows } from './supabase.js';
 

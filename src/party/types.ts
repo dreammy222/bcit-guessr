@@ -9,7 +9,7 @@ export type PartyStatusValue =
   | 'ended';
 export type PartyViewerRole = 'host' | 'player';
 
-import type { AvatarState } from '../data/cosmetics';
+import type { AvatarState } from '../data/cosmetics.js';
 
 export interface PartyPlayerSummary {
   displayName: string;

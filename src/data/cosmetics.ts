@@ -1,6 +1,6 @@
-import { SCHOOL } from '../config/school';
-import { GENERIC_COSMETICS } from './cosmeticsPacks/generic';
-import { UBC_COSMETICS } from './cosmeticsPacks/ubc';
+import { SCHOOL } from '../config/school.js';
+import { GENERIC_COSMETICS } from './cosmeticsPacks/generic.js';
+import { UBC_COSMETICS } from './cosmeticsPacks/ubc.js';
 
 export const COSMETIC_SLOTS = ['shirt', 'hat', 'glasses', 'moustache'] as const;
 
