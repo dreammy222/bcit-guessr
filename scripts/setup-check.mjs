@@ -52,9 +52,17 @@ check('Clerk', 'VITE_CLERK_PUBLISHABLE_KEY', Boolean(env('VITE_CLERK_PUBLISHABLE
 check('Clerk', 'CLERK_ISSUER (or CLERK_JWKS_URL)', Boolean(env('CLERK_ISSUER') || env('CLERK_JWKS_URL') || env('CLERK_FAPI') || env('CLERK_FRONTEND_API')), 'e.g. https://your-app.clerk.accounts.dev');
 check('Clerk', 'CLERK_WEBHOOK_SIGNING_SECRET', Boolean(env('CLERK_WEBHOOK_SIGNING_SECRET') || env('CLERK_WEBHOOK_SECRET')), 'Clerk Dashboard → Webhooks (needed for user deletion cleanup)');
 
-check('AWS', 'AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY', Boolean(env('AWS_ACCESS_KEY_ID') && env('AWS_SECRET_ACCESS_KEY')), 'IAM user with DynamoDB read access');
+const locationsBackend = (env('LOCATIONS_BACKEND') || 'dynamo').toLowerCase() === 'supabase' ? 'supabase' : 'dynamo';
 const dynamoTable = env('DYNAMO_TABLE_NAME') || configField('dynamoTableName');
-check('AWS', `DynamoDB table name (${dynamoTable || 'MISSING'})`, Boolean(dynamoTable), 'DYNAMO_TABLE_NAME or backendDefaults.dynamoTableName');
+const locationsTable = env('LOCATIONS_TABLE') || 'locations';
+
+if (locationsBackend === 'supabase') {
+  check('Locations', `backend: supabase (table "${locationsTable}")`, true, 'LOCATIONS_BACKEND=supabase — no AWS credentials needed for locations');
+} else {
+  check('Locations', 'backend: dynamo', true, 'set LOCATIONS_BACKEND=supabase to use Postgres instead');
+  check('AWS', 'AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY', Boolean(env('AWS_ACCESS_KEY_ID') && env('AWS_SECRET_ACCESS_KEY')), 'IAM user with DynamoDB read access');
+  check('AWS', `DynamoDB table name (${dynamoTable || 'MISSING'})`, Boolean(dynamoTable), 'DYNAMO_TABLE_NAME or backendDefaults.dynamoTableName');
+}
 const photoBase = env('PHOTO_BASE_URL') || env('PHOTO_CDN_BASE_URL') || configField('photoBaseUrl');
 check('Photos', `photo base URL (${photoBase || 'MISSING'})`, Boolean(photoBase), 'PHOTO_BASE_URL or backendDefaults.photoBaseUrl');
 check('Photos', 'VITE_PHOTO_BASE_URL (client)', Boolean(env('VITE_PHOTO_BASE_URL') || configField('photoBaseUrl')), 'set for the client bundle too');
@@ -77,7 +85,22 @@ async function probe(group, label, fn) {
 if (CONNECT) {
   console.log('\nRunning live connectivity probes...');
 
-  if (dynamoTable && env('AWS_ACCESS_KEY_ID')) {
+  if (locationsBackend === 'supabase') {
+    const supabaseUrl = env('SUPABASE_URL') || env('VITE_SUPABASE_URL');
+    const supabaseKey = env('SUPABASE_SERVICE_ROLE_KEY') || env('SUPABASE_ANON_KEY') || env('VITE_SUPABASE_ANON_KEY');
+    if (supabaseUrl && supabaseKey) {
+      await probe('Locations', `Supabase table "${locationsTable}" readable`, async () => {
+        const response = await fetch(`${supabaseUrl}/rest/v1/${locationsTable}?select=id&limit=1`, {
+          headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` },
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+        const rows = await response.json();
+        if (!Array.isArray(rows) || rows.length === 0) {
+          throw new Error('table is empty — run scripts/seedLocations.mjs');
+        }
+      });
+    }
+  } else if (dynamoTable && env('AWS_ACCESS_KEY_ID')) {
     await probe('AWS', `DynamoDB DescribeTable ${dynamoTable}`, async () => {
       const { DynamoDBClient, DescribeTableCommand } = await import('@aws-sdk/client-dynamodb');
       const client = new DynamoDBClient({ region: env('AWS_REGION') || 'us-west-1' });

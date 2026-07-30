@@ -6,7 +6,7 @@ import {
   checkRateLimit,
 } from './_lib/security.js';
 import { getOptionalClerkUserFromRequest } from './_lib/clerk.js';
-import { listStoredLocations } from './_lib/awsLocations.js';
+import { listStoredLocations } from './_lib/locationStore.js';
 import { createSinglePlayerSession } from './_lib/singlePlayer.js';
 import { isValidSinglePlayerClientToken } from './_lib/validation.js';
 

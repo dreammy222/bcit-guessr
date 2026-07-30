@@ -5,7 +5,7 @@ import {
   buildRateLimitHeaders,
   checkRateLimit,
 } from './_lib/security.js';
-import { getStoredLocation } from './_lib/awsLocations.js';
+import { getStoredLocation } from './_lib/locationStore.js';
 import {
   getSinglePlayerActivePhoto,
   getSinglePlayerCurrentRoundIndex,

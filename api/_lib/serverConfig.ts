@@ -14,6 +14,17 @@ function cleanEnv(value: string | undefined) {
 export const DYNAMO_TABLE =
   cleanEnv(process.env.DYNAMO_TABLE_NAME) || SCHOOL.backendDefaults.dynamoTableName;
 
+/**
+ * Which store holds the location catalog: 'dynamo' (default) or 'supabase'.
+ * Schools already running Supabase for party mode can drop AWS entirely by
+ * setting LOCATIONS_BACKEND=supabase and seeding the table below.
+ */
+export const LOCATIONS_BACKEND =
+  cleanEnv(process.env.LOCATIONS_BACKEND).toLowerCase() === 'supabase' ? 'supabase' : 'dynamo';
+
+/** Postgres table used when LOCATIONS_BACKEND=supabase */
+export const LOCATIONS_TABLE = cleanEnv(process.env.LOCATIONS_TABLE) || 'locations';
+
 export const KV_PREFIX =
   cleanEnv(process.env.KV_KEY_PREFIX) || SCHOOL.backendDefaults.kvKeyPrefix;
 

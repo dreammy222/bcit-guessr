@@ -2,7 +2,7 @@ import { kv } from '@vercel/kv';
 import { SCHOOL } from '../../src/config/school.js';
 import { awardDailyCoinsOnce } from './account.js';
 import { calculateScore, getPhotoUrl, haversineDistance } from './gameMath.js';
-import { getStoredLocation, listStoredLocations } from './awsLocations.js';
+import { getStoredLocation, listStoredLocations } from './locationStore.js';
 
 const DAILY_TIME_ZONE = SCHOOL.timezone;
 const DAILY_ATTEMPT_TTL_SECONDS = 60 * 60 * 72;
