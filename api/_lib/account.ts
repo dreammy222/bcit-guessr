@@ -47,7 +47,14 @@ const ACCOUNT_FALLBACK_STORE = new Map<string, FallbackAccountState>();
 const DAILY_COIN_AWARD_FALLBACK_STORE = new Set<string>();
 const PROMO_COIN_AWARD_FALLBACK_STORE = new Set<string>();
 
-const awardDailyCoinsScript = kv.createScript<[number, string]>(`
+/**
+ * Lua scripts are created lazily: kv.createScript() throws when KV env vars are
+ * absent, and at module scope that killed every route importing this file
+ * (bootstrap, daily, party, avatar/*) during zero-backend local dev — before
+ * the isKvConfigured() guards at each call site could take effect.
+ */
+function createAwardDailyCoinsScript() {
+  return kv.createScript<[number, string]>(`
 local markerKey = KEYS[1]
 local userKey = KEYS[2]
 local fieldName = ARGV[1]
@@ -71,8 +78,10 @@ end
 
 return {awarded, balance}
 `);
+}
 
-const purchaseCosmeticScript = kv.createScript<[string]>(`
+function createPurchaseCosmeticScript() {
+  return kv.createScript<[string]>(`
 local userKey = KEYS[1]
 local ownedKey = KEYS[2]
 local coinField = ARGV[1]
@@ -95,6 +104,18 @@ redis.call('HSET', userKey, equippedField, cosmeticId)
 
 return {'PURCHASED'}
 `);
+}
+
+let awardDailyCoinsScriptInstance: ReturnType<typeof createAwardDailyCoinsScript> | null = null;
+let purchaseCosmeticScriptInstance: ReturnType<typeof createPurchaseCosmeticScript> | null = null;
+
+function awardDailyCoinsScript() {
+  return (awardDailyCoinsScriptInstance ??= createAwardDailyCoinsScript());
+}
+
+function purchaseCosmeticScript() {
+  return (purchaseCosmeticScriptInstance ??= createPurchaseCosmeticScript());
+}
 
 function isKvConfigured() {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
@@ -359,7 +380,7 @@ export async function awardDailyCoinsOnce(
   }
 
   try {
-    const [awardedRaw, balanceRaw] = await awardDailyCoinsScript.exec(
+    const [awardedRaw, balanceRaw] = await awardDailyCoinsScript().exec(
       [markerKey, accountKey(userId)],
       [COIN_BALANCE_FIELD, String(normalizedCoins), String(DAILY_COIN_AWARD_TTL_SECONDS)],
     );
@@ -393,7 +414,7 @@ export async function awardPromoCoinsOnce(
   }
 
   try {
-    const [awardedRaw, balanceRaw] = await awardDailyCoinsScript.exec(
+    const [awardedRaw, balanceRaw] = await awardDailyCoinsScript().exec(
       [markerKey, accountKey(userId)],
       [COIN_BALANCE_FIELD, String(normalizedCoins), '0'],
     );
@@ -473,7 +494,7 @@ export async function purchaseUserCosmetic(
   }
 
   try {
-    const [statusRaw] = await purchaseCosmeticScript.exec(
+    const [statusRaw] = await purchaseCosmeticScript().exec(
       [accountKey(userId), ownedCosmeticsKey(userId)],
       [
         COIN_BALANCE_FIELD,
