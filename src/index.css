@@ -31,6 +31,8 @@
   /* Legibility aid for accent text over light imagery (e.g. the start-screen
      logo, which sits on a whitened background overlay). */
   --accent-text-shadow: none;
+  /* Text-selection highlight — was hardcoded amber below the palette. */
+  --color-selection: rgba(255, 184, 0, 0.2);
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;
@@ -119,7 +121,7 @@ a {
 }
 
 ::selection {
-  background: rgba(255, 184, 0, 0.2);
+  background: var(--color-selection);
 }
 
 #root {
