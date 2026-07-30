@@ -22,7 +22,10 @@
   --gradient-summary-bg: radial-gradient(ellipse at top, #002b4a 0%, #00101d 100%);
   --glass-panel: rgba(0, 34, 58, 0.82);
   --glass-panel-strong: rgba(8, 50, 82, 0.86);
-  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.45);
+  /* Two-tone: the dark inner ring stays visible on white buttons, the outer
+     light ring stays visible on dark panels. A single white ring disappeared
+     against the white accent. */
+  --focus-ring: 0 0 0 2px rgba(0, 20, 38, 0.9), 0 0 0 5px rgba(255, 255, 255, 0.7);
   --color-gold-tint: rgba(255, 255, 255, 0.18);
   --color-gold-tint-border: rgba(255, 255, 255, 0.38);
   /* White accent needs help on light surfaces: a black outline on
