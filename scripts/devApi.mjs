@@ -17,6 +17,15 @@ import { resolve } from 'node:path';
 
 const PORT = Number(process.env.DEV_API_PORT || 3001);
 
+// Vite loads .env.local for VITE_* vars, but this process is separate — without
+// this, server-side config (CLERK_ISSUER, KV, Supabase, AWS) silently falls back
+// to the placeholders below and real Clerk tokens fail to verify locally.
+try {
+  process.loadEnvFile(resolve(process.cwd(), '.env.local'));
+} catch {
+  // No .env.local yet — the zero-backend defaults below cover local play.
+}
+
 // Local-dev safety defaults: keep server modules importable without real services.
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.CLERK_ISSUER = process.env.CLERK_ISSUER || 'https://placeholder-dev.clerk.accounts.dev';
