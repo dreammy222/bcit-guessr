@@ -139,9 +139,10 @@ export const SCHOOL: SchoolConfig = {
   backendDefaults: {
     dynamoTableName: 'BCITGuessrLocations',
     kvKeyPrefix: 'bcit',
-    // Local dev serves panoramas from public/photos; point at the S3 bucket
-    // (or set PHOTO_BASE_URL / VITE_PHOTO_BASE_URL) before deploying.
-    photoBaseUrl: '/photos',
+    // Cloudflare R2 behind a custom domain (free egress, CDN-cached).
+    // Override with PHOTO_BASE_URL / VITE_PHOTO_BASE_URL, or set them to
+    // '/photos' to play offline against the local symlinks.
+    photoBaseUrl: 'https://photos.bcitguessr.com',
   },
 
   // No BCIT art pack yet — the 14 generic cosmetics apply.
