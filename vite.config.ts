@@ -10,6 +10,7 @@ function schoolHtmlPlugin() {
       return html
         .replaceAll('%SCHOOL_TITLE%', `${SCHOOL.gameName} - ${SCHOOL.tagline}`)
         .replaceAll('%SCHOOL_META_DESCRIPTION%', SCHOOL.metaDescription)
+        .replaceAll('%SCHOOL_THEME_COLOR%', SCHOOL.themeColor)
     },
   }
 }
