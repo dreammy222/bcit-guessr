@@ -1,4 +1,4 @@
-import { SCHOOL } from './school';
+import { SCHOOL } from './school.js';
 
 /**
  * Builds a namespaced client storage key: `${storagePrefix}_${suffix}`.

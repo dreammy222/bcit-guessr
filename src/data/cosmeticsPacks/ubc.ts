@@ -1,4 +1,4 @@
-import type { CosmeticDefinition } from '../cosmetics';
+import type { CosmeticDefinition } from '../cosmetics.js';
 
 /**
  * UBC school pack — the reference example for new schools.

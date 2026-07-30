@@ -1,4 +1,4 @@
-import type { CosmeticDefinition } from '../cosmetics';
+import type { CosmeticDefinition } from '../cosmetics.js';
 
 /**
  * School-agnostic shop items shared by every deployment.
