@@ -79,6 +79,8 @@
   padding: 12px 18px;
   background: var(--gradient-gold);
   color: #0c1832;
+  outline: 1px solid var(--color-accent-outline);
+  outline-offset: -1px;
   font: inherit;
   font-weight: 800;
   cursor: pointer;

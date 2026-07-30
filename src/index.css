@@ -20,6 +20,17 @@
   --glass-panel: rgba(0, 20, 50, 0.82);
   --glass-panel-strong: rgba(9, 31, 74, 0.86);
   --focus-ring: 0 0 0 3px rgba(255, 184, 0, 0.35);
+  /* Translucent accent washes (badges, pills). Were hardcoded amber. */
+  --color-gold-tint: rgba(255, 184, 0, 0.16);
+  --color-gold-tint-border: rgba(255, 214, 111, 0.34);
+  /* Outline drawn around accent-filled controls, and the result-map marker
+     border. Only needed when the accent is pale enough to blend into a light
+     surface (map tiles, a bright panorama) — 'transparent'/'#fff' are no-ops. */
+  --color-accent-outline: transparent;
+  --color-marker-outline: #fff;
+  /* Legibility aid for accent text over light imagery (e.g. the start-screen
+     logo, which sits on a whitened background overlay). */
+  --accent-text-shadow: none;
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;
@@ -179,6 +190,8 @@ a {
 .ui-button--primary {
   background: var(--gradient-gold);
   color: var(--color-navy);
+  outline: 1px solid var(--color-accent-outline);
+  outline-offset: -1px;
 }
 
 .ui-button--primary:hover {
@@ -251,7 +264,7 @@ a {
 }
 
 .ui-badge--gold {
-  background: rgba(255, 184, 0, 0.16);
+  background: var(--color-gold-tint);
   color: var(--color-gold-soft);
 }
 
