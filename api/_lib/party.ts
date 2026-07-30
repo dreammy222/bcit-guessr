@@ -11,7 +11,7 @@ import type {
   PartyTopEntry,
   PartyViewerRole,
 } from '../../src/party/types';
-import { getStoredLocation, listStoredLocations } from './awsLocations.js';
+import { getStoredLocation, listStoredLocations } from './locationStore.js';
 import { insertRows, selectRows, selectSingle, updateRows } from './supabase.js';
 
 const PARTY_MAX_PLAYERS = 30;

@@ -17,7 +17,7 @@ with coin-purchasable cosmetics.
 | Frontend | React 18 + TypeScript + Vite, Leaflet (map), CSS custom properties |
 | API | Vercel serverless functions in `api/` (mix of Node and Edge runtimes) |
 | Auth | Clerk |
-| Locations DB | AWS DynamoDB (falls back to local JSON in dev) |
+| Locations DB | AWS DynamoDB *or* Supabase Postgres (`LOCATIONS_BACKEND`); falls back to local JSON in dev |
 | Leaderboard / daily / rate limits | Vercel KV |
 | Party mode | Supabase (Postgres + REST) |
 | Photos | S3 bucket (any public HTTP host works) |
@@ -91,7 +91,7 @@ git fetch template && git merge template/main   # or cherry-pick single fixes
 | `npm run build` | Production build (also fills the HTML title/meta from config) |
 | `npx tsc --noEmit` | Typecheck |
 | `node scripts/setup-check.mjs --connect` | Validate env vars and live-probe every backend service |
-| `node scripts/seedDynamoDB.js` | Seed locations into DynamoDB (needs `DYNAMO_TABLE_NAME`, `LOCATIONS_FILE`, AWS creds) |
+| `node scripts/seedLocations.mjs` | Seed locations into DynamoDB or Supabase (needs `LOCATIONS_FILE`, plus `LOCATIONS_BACKEND=supabase` for Postgres) |
 | `node scripts/generate-sitemap.mjs` | Regenerate `public/sitemap.xml` from the config `siteUrl` |
 
 ## Repo layout

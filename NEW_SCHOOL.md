@@ -95,9 +95,19 @@ node scripts/setup-check.mjs --connect  # live probes of every service
 5. Seed DynamoDB:
 
 ```sh
+# DynamoDB (default)
 DYNAMO_TABLE_NAME=<YourTable> LOCATIONS_FILE=locations.<slug>.json \
-AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... node scripts/seedDynamoDB.js
+AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... node scripts/seedLocations.mjs
+
+# …or Supabase, reusing the party-mode project (no AWS account needed for
+# locations). Run supabase/locations_schema.sql first, then:
+LOCATIONS_BACKEND=supabase LOCATIONS_FILE=locations.<slug>.json \
+  node scripts/seedLocations.mjs
 ```
+
+The daily challenge needs no extra setup: it is picked automatically from the
+seeded catalog by a stable hash of the date, so every player gets the same
+photo and it rotates at midnight in the configured timezone.
 
 Optional: mark a location as a daily challenge with
 `scripts/addDailyChallenge.mjs` (same env vars).
