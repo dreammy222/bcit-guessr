@@ -5,21 +5,23 @@
      = highlight color. Everything below the palette section is
      shared product styling and should not need per-school edits.
      ============================================================ */
-  --color-brand-navy: #1a2a44;
-  --color-brand-navy-hover: #233759;
-  --color-navy: #002145;
-  --color-navy-dark: #000f21;
-  --color-navy-medium: #001733;
-  --color-gold: #FFB800;
-  --color-gold-strong: #FFD100;
-  --color-gold-dark: #e6bc00;
-  --color-gold-soft: #ffe39a;
-  --color-border-gold: rgba(255, 184, 0, 0.28);
-  --gradient-gold: linear-gradient(135deg, #FFB800 0%, #FFD66F 100%);
-  --gradient-summary-bg: radial-gradient(ellipse at top, #001733 0%, #000a1a 100%);
-  --glass-panel: rgba(0, 20, 50, 0.82);
-  --glass-panel-strong: rgba(9, 31, 74, 0.86);
-  --focus-ring: 0 0 0 3px rgba(255, 184, 0, 0.35);
+  /* BCIT: deep blue primary + yellow accent. Verify against BCIT's
+     brand guide before launch — these are a close visual starting point. */
+  --color-brand-navy: #14314f;
+  --color-brand-navy-hover: #1c4269;
+  --color-navy: #003c71;
+  --color-navy-dark: #001c2e;
+  --color-navy-medium: #002a4f;
+  --color-gold: #FFC72C;
+  --color-gold-strong: #FFD65A;
+  --color-gold-dark: #e0a800;
+  --color-gold-soft: #ffe9a8;
+  --color-border-gold: rgba(255, 199, 44, 0.28);
+  --gradient-gold: linear-gradient(135deg, #FFC72C 0%, #FFDE7A 100%);
+  --gradient-summary-bg: radial-gradient(ellipse at top, #002a4f 0%, #00121f 100%);
+  --glass-panel: rgba(0, 32, 64, 0.82);
+  --glass-panel-strong: rgba(10, 46, 88, 0.86);
+  --focus-ring: 0 0 0 3px rgba(255, 199, 44, 0.35);
   /* ================== end SCHOOL PALETTE ================== */
 
   --color-white: #ffffff;

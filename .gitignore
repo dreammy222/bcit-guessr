@@ -25,3 +25,6 @@ dist-ssr
 
 .vercel
 .env*.local
+
+# Local panorama copies (production serves these from S3)
+public/photos/

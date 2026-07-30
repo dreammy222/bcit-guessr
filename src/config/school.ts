@@ -68,22 +68,23 @@ export interface SchoolConfig {
 }
 
 export const SCHOOL: SchoolConfig = {
-  slug: 'ubc',
-  shortName: 'UBC',
-  gameName: 'UBCGuessr',
+  slug: 'bcit',
+  shortName: 'BCIT',
+  gameName: 'BCITGuessr',
   tagline: 'Know Your Campus',
-  metaDescription: 'A GeoGuessr-style game for UBC campus :)',
-  siteUrl: 'https://ubcguessr.com',
-  instagramUrl: 'https://www.instagram.com/ubcguessr',
+  metaDescription: 'A GeoGuessr-style game for BCIT campus :)',
+  siteUrl: 'https://bcitguessr.com',
+  instagramUrl: null,
 
   map: {
-    center: [49.2606, -123.246],
+    // Burnaby campus spans ~950 m N-S x ~525 m E-W (from locations.bcit.json).
+    center: [49.2498, -123.0017],
     bounds: [
-      [49.24, -123.275],
-      [49.285, -123.22],
+      [49.2415, -123.0105],
+      [49.258, -122.994],
     ],
-    defaultZoom: 14,
-    minZoom: 13,
+    defaultZoom: 15,
+    minZoom: 14,
     maxZoom: 18,
     tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution:
@@ -94,29 +95,34 @@ export const SCHOOL: SchoolConfig = {
     maxPointsPerRound: 2000,
     roundsPerGame: 5,
     roundTimerSeconds: 30,
-    falloffC: 0.46,
+    // Retuned for BCIT's ~1 km campus (UBC uses 0.46 for ~2 km):
+    // a 150 m miss keeps ~87%, 300 m ~56%, 600 m ~10%.
+    falloffC: 0.28,
     titles: [
-      { minPct: 0.95, title: 'UBC Legend' },
+      { minPct: 0.95, title: 'BCIT Legend' },
       { minPct: 0.85, title: 'Campus Master' },
-      { minPct: 0.7, title: 'UBC Navigator' },
-      { minPct: 0.55, title: 'Thunderbird Scout' },
+      { minPct: 0.7, title: 'BCIT Navigator' },
+      { minPct: 0.55, title: 'Campus Scout' },
       { minPct: 0.4, title: 'Campus Wanderer' },
-      { minPct: 0.2, title: 'First-Year Frosh' },
+      { minPct: 0.2, title: 'First-Term Frosh' },
       { minPct: 0, title: 'Lost on Campus' },
     ],
   },
 
   timezone: 'America/Vancouver',
 
-  storagePrefix: 'ubc',
+  storagePrefix: 'bcit',
 
   backendDefaults: {
-    dynamoTableName: 'UBCGuessrLocations',
-    kvKeyPrefix: 'ubc',
-    photoBaseUrl: 'https://ubcguessr.s3.us-west-1.amazonaws.com',
+    dynamoTableName: 'BCITGuessrLocations',
+    kvKeyPrefix: 'bcit',
+    // Local dev serves panoramas from public/photos; point at the S3 bucket
+    // (or set PHOTO_BASE_URL / VITE_PHOTO_BASE_URL) before deploying.
+    photoBaseUrl: '/photos',
   },
 
-  cosmeticsPackId: 'ubc',
+  // No BCIT art pack yet — the 14 generic cosmetics apply.
+  cosmeticsPackId: 'none',
 };
 
 /**
