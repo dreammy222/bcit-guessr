@@ -13,6 +13,18 @@ export interface ScoreTitle {
   title: string;
 }
 
+/**
+ * Round-result reaction popup tier. Checked in order against the guess distance,
+ * so these must be listed nearest-first. Scale the distances to the campus —
+ * tiers wider than the campus itself can never be reached.
+ */
+export interface ReactionTier {
+  /** Inclusive upper bound in km, or null for the catch-all worst tier */
+  maxKm: number | null;
+  label: string;
+  showConfetti?: boolean;
+}
+
 export interface SchoolConfig {
   /** Lowercase identifier — drives storage prefixes and backend defaults, e.g. 'ubc' */
   slug: string;
@@ -48,6 +60,8 @@ export interface SchoolConfig {
     falloffC: number;
     /** Grade-title ladder, checked top-down against totalScore / maxTotal */
     titles: ScoreTitle[];
+    /** Round-result reaction popup tiers, nearest-first */
+    reactionTiers: ReactionTier[];
   };
 
   /** IANA timezone for daily-challenge rollover */
@@ -103,6 +117,13 @@ export const SCHOOL: SchoolConfig = {
       { minPct: 0.4, title: 'Campus Wanderer' },
       { minPct: 0.2, title: 'First-Year Frosh' },
       { minPct: 0, title: 'Lost on Campus' },
+    ],
+    reactionTiers: [
+      { maxKm: 0.15, label: 'An IQ too high?', showConfetti: true },
+      { maxKm: 0.3, label: '13 habits of highly intelligent people' },
+      { maxKm: 0.6, label: 'Those who know' },
+      { maxKm: 1.0, label: 'Why is he lying?' },
+      { maxKm: null, label: 'Put the fries in the bag bro.' },
     ],
   },
 

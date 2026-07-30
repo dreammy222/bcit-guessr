@@ -5,6 +5,7 @@ import { MapContainer, Marker, Polyline, TileLayer, useMap } from 'react-leaflet
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { RoundResult } from '../hooks/useGameState';
+import { SCHOOL } from '../config/school';
 import { createEmptyAvatarState, type AvatarState } from '../data/cosmetics';
 import { isAvatarState, readCachedAvatar, writeCachedAvatar } from '../utils/avatarCache';
 import RoundResultPerformancePopup from './RoundResultPerformancePopup';
@@ -60,7 +61,6 @@ interface ConfettiPieceStyle extends CSSProperties {
   '--confetti-size': string;
 }
 
-const IQ_TOO_HIGH_LABEL = 'An IQ too high?';
 const CONFETTI_PIECE_COUNT = 60;
 const CONFETTI_COLORS = [
   'var(--color-brand-navy)',
@@ -122,33 +122,18 @@ function getPerformanceFeedback(
     return null;
   }
 
-  if (distanceKm <= 0.15) {
-    return {
-      label: IQ_TOO_HIGH_LABEL,
-      showConfetti: true,
-    };
-  }
+  // Tiers are campus-scaled in src/config/school.ts, nearest-first.
+  const tier = SCHOOL.scoring.reactionTiers.find(
+    ({ maxKm }) => maxKm === null || distanceKm <= maxKm,
+  );
 
-  if (distanceKm <= 0.3) {
-    return {
-      label: '13 habits of highly intelligent people',
-    };
-  }
-
-  if (distanceKm <= .6) {
-    return {
-      label: 'Those who know',
-    };
-  }
-
-  if (distanceKm <= 1.0) {
-    return {
-      label: 'Why is he lying?',
-    };
+  if (!tier) {
+    return null;
   }
 
   return {
-    label: 'Put the fries in the bag bro.',
+    label: tier.label,
+    ...(tier.showConfetti ? { showConfetti: true } : {}),
   };
 }
 
