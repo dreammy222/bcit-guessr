@@ -64,6 +64,12 @@ export interface SchoolConfig {
     reactionTiers: ReactionTier[];
   };
 
+  /**
+   * Mobile browser chrome tint (<meta name="theme-color">). Normally the
+   * darkest colour in the SCHOOL PALETTE so the chrome blends with the app.
+   */
+  themeColor: string;
+
   /** IANA timezone for daily-challenge rollover */
   timezone: string;
 
@@ -126,6 +132,8 @@ export const SCHOOL: SchoolConfig = {
       { maxKm: null, label: 'Put the fries in the bag bro.' },
     ],
   },
+
+  themeColor: '#000f21',
 
   timezone: 'America/Vancouver',
 
