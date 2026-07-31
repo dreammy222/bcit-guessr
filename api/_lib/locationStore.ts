@@ -11,7 +11,6 @@
  * callers never care which backend a school uses.
  */
 
-import { playableLocations } from '../../src/data/locations.js';
 import { DYNAMO_TABLE, LOCATIONS_BACKEND, LOCATIONS_TABLE } from './serverConfig.js';
 import { selectRows, selectSingle } from './supabase.js';
 
@@ -172,12 +171,28 @@ const locationCache = new Map<
   }
 >();
 
-function getLocalStoredLocations(): StoredLocation[] {
-  return playableLocations.map((location) => ({
-    id: location.id,
-    label: location.label,
-    coordinates: location.coordinates,
-  }));
+let localLocationsCache: StoredLocation[] | null = null;
+
+/**
+ * Dev-only fallback data, imported on demand rather than at module load.
+ *
+ * src/data/locations.*.json is a JSON module, and Node ESM refuses to load one
+ * without an import attribute — which Vercel's TypeScript step strips. A static
+ * import therefore crashed every nodejs-runtime function that could reach this
+ * file, even though the fallback never runs in production. Keeping it dynamic
+ * means production never loads the JSON at all.
+ */
+async function getLocalStoredLocations(): Promise<StoredLocation[]> {
+  if (!localLocationsCache) {
+    const { playableLocations } = await import('../../src/data/locations.js');
+    localLocationsCache = playableLocations.map((location) => ({
+      id: location.id,
+      label: location.label,
+      coordinates: location.coordinates,
+    }));
+  }
+
+  return localLocationsCache;
 }
 
 function warnUsingLocalFallback(error: unknown) {
@@ -246,13 +261,14 @@ export async function getStoredLocation(photoId: string): Promise<StoredLocation
 
   const pending = provider
     .fetchOne(photoId)
-    .catch((error) => {
+    .catch(async (error) => {
       if (!SHOULD_FALLBACK_TO_LOCAL_LOCATIONS) {
         throw error;
       }
 
       warnUsingLocalFallback(error);
-      return getLocalStoredLocations().find((location) => location.id === photoId) ?? null;
+      const local = await getLocalStoredLocations();
+      return local.find((location) => location.id === photoId) ?? null;
     })
     .then((location) => {
       locationCache.set(photoId, {
