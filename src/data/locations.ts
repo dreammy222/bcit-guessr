@@ -6,7 +6,11 @@
  * Only photos with non-null coordinates are used in gameplay.
  */
 
-import rawLocations from './locations.bcit.json' with { type: 'json' };
+// No `with { type: 'json' }` here: Vercel's function bundler cannot parse import
+// attributes and fails the build on them. tsconfig uses moduleResolution "bundler"
+// with resolveJsonModule, so the attribute is not needed, and the bundler inlines
+// the JSON rather than loading it as a module at runtime.
+import rawLocations from './locations.bcit.json';
 
 export interface PhotoLocation {
   /** Unique identifier (matches filename without extension) */
