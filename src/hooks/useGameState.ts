@@ -215,6 +215,7 @@ export interface GameState {
   awaitingRoundStart: boolean;
   timedOut: boolean;
   isReady: boolean;
+  isStarting: boolean;
 }
 
 export interface GameActions {
@@ -242,6 +243,7 @@ export function useGameState(): GameState & GameActions {
   const [timedOut, setTimedOut] = useState(false);
   const [roundDeadlineAt, setRoundDeadlineAt] = useState<number | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeRemainingRef = useRef(ROUND_TIMER_SECONDS);
@@ -434,6 +436,7 @@ export function useGameState(): GameState & GameActions {
     }
 
     isStartingRef.current = true;
+    setIsStarting(true);
 
     try {
       clearTimer();
@@ -490,6 +493,7 @@ export function useGameState(): GameState & GameActions {
       alert('Could not start game. Please check your connection to the server database.');
     } finally {
       isStartingRef.current = false;
+      setIsStarting(false);
     }
   }, [clearTimer, getToken, isSignedIn]);
 
@@ -693,6 +697,7 @@ export function useGameState(): GameState & GameActions {
     awaitingRoundStart,
     timedOut,
     isReady,
+    isStarting,
     startGame,
     handleActiveRoundReady,
     setGuess,

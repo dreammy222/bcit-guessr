@@ -1,0 +1,520 @@
+/* Loading shell for the playing phase. Geometry mirrors .game-view in App.css. */
+.skeleton-play {
+  position: fixed;
+  inset: 0;
+  /* Above .game-hud / .game-overlay (z-index 100) so it fully covers the live game view */
+  z-index: 400;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--color-navy-dark);
+  /* No entrance fade: on a round change the game view mounts in the same commit, and
+     anything less than instantly opaque lets the panorama's own loader flash through. */
+  transition: opacity 0.32s ease;
+}
+
+/* Reveals the loaded round underneath rather than cutting to it */
+.skeleton-play--exiting {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Shared placeholder block ─── */
+.skeleton-block {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--color-border-lighter);
+  border-radius: var(--radius-md);
+}
+
+.skeleton-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.09) 50%,
+    transparent 100%
+  );
+  animation: skeleton-sweep 1.6s ease-in-out infinite;
+}
+
+/* ─── Panorama surface ─── */
+.skeleton-play__panorama {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--color-navy-medium) 0%, var(--color-navy-dark) 70%);
+}
+
+.skeleton-play__panorama::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.045) 50%,
+    transparent 100%
+  );
+  animation: skeleton-sweep 2.6s ease-in-out infinite;
+}
+
+/* ─── Dropping guess pin (mirrors .guess-marker in MapGuess.css) ─── */
+.skeleton-play__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.skeleton-play__stage {
+  position: relative;
+  width: 120px;
+  height: 72px;
+}
+
+.skeleton-play__pin {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  transform-origin: 50% 100%;
+  animation: skeleton-pin-drop 1.8s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+.skeleton-play__pin-head {
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-gold);
+  border: 3px solid var(--color-navy);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.skeleton-play__pin-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 26px;
+  height: 8px;
+  margin-left: -13px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.38);
+  filter: blur(3px);
+  transform-origin: 50% 50%;
+  animation: skeleton-pin-shadow 1.8s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+/* Ground ripples, fired to land with the pin */
+.skeleton-play__ring {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 34px;
+  height: 12px;
+  margin-left: -17px;
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: skeleton-ring-out 1.8s ease-out infinite;
+}
+
+.skeleton-play__ring:nth-child(1) {
+  animation-delay: 0.58s;
+}
+
+.skeleton-play__ring:nth-child(2) {
+  animation-delay: 0.74s;
+}
+
+.skeleton-play__ring:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
+.skeleton-play__caption {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+  opacity: 0;
+  /* Held back so a warm cache never flashes the label */
+  animation: skeleton-caption-in 0.4s ease-out 0.9s forwards;
+}
+
+/* ─── HUD (mirrors .game-hud) ─── */
+.skeleton-play__hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  pointer-events: none;
+}
+
+.skeleton-play__hud-left,
+.skeleton-play__hud-right {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+}
+
+.skeleton-play__hud-right {
+  justify-content: flex-end;
+}
+
+.skeleton-play__hud-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(220px, calc(100% - 220px));
+}
+
+.skeleton-play__round {
+  width: 122px;
+  height: 42px;
+  border-radius: var(--radius-pill);
+}
+
+.skeleton-play__timer {
+  width: min(220px, 100%);
+  height: 56px;
+  border-radius: var(--radius-pill);
+}
+
+.skeleton-play__score {
+  width: 116px;
+  height: 46px;
+  border-radius: var(--radius-pill);
+}
+
+/* ─── Map overlay (mirrors .game-overlay + .map-panel) ─── */
+.skeleton-play__overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(420px, 100%);
+}
+
+.skeleton-play__panel {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--glass-panel);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border-gold);
+  box-shadow: var(--shadow-panel);
+}
+
+.skeleton-play__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+}
+
+.skeleton-play__panel-title {
+  width: 168px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-play__panel-toggle {
+  width: 40px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-play__panel-map {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--color-border-lighter);
+}
+
+.skeleton-play__panel-map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  animation: skeleton-sweep 1.6s ease-in-out infinite;
+}
+
+.skeleton-play__panel--collapsed .skeleton-play__panel-map {
+  height: 0;
+  border-top: none;
+}
+
+.skeleton-play__panel--expanded .skeleton-play__panel-map {
+  height: clamp(280px, 38dvh, 420px);
+}
+
+.skeleton-play__submit-row {
+  width: 100%;
+  padding: 0 4px;
+}
+
+.skeleton-play__submit {
+  width: 100%;
+  height: 52px;
+  border-radius: var(--radius-pill);
+}
+
+/* ─── Animations ─── */
+@keyframes skeleton-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes skeleton-caption-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes skeleton-pin-drop {
+  0% {
+    transform: translateY(-44px) scaleY(1.06);
+    opacity: 0;
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  32% {
+    transform: translateY(0) scaleY(1.06);
+    opacity: 1;
+  }
+
+  /* squash on impact, then settle */
+  40% {
+    transform: translateY(0) scaleY(0.84);
+  }
+
+  50% {
+    transform: translateY(0) scaleY(1);
+  }
+
+  86% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0;
+  }
+}
+
+@keyframes skeleton-pin-shadow {
+  0%,
+  32% {
+    transform: scale(0.4);
+    opacity: 0.15;
+  }
+
+  44% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  86% {
+    transform: scale(0.92);
+    opacity: 0.45;
+  }
+
+  100% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes skeleton-ring-out {
+  0% {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.55;
+  }
+
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ─── Responsive (mirrors App.css breakpoints) ─── */
+@media (max-width: 768px) {
+  .skeleton-play__hud {
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      max(14px, env(safe-area-inset-right))
+      10px
+      max(14px, env(safe-area-inset-left));
+    gap: 12px;
+  }
+
+  .skeleton-play__hud-center {
+    width: min(190px, calc(100% - 180px));
+  }
+
+  .skeleton-play__round {
+    width: 108px;
+    height: 39px;
+  }
+
+  .skeleton-play__timer {
+    width: min(190px, 100%);
+    height: 50px;
+  }
+
+  .skeleton-play__score {
+    width: 104px;
+    height: 40px;
+  }
+
+  .skeleton-play__overlay {
+    width: 100%;
+    padding:
+      12px
+      max(12px, env(safe-area-inset-right))
+      calc(12px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .skeleton-play__panel-header {
+    padding: 10px 12px;
+  }
+
+  .skeleton-play__panel--expanded .skeleton-play__panel-map {
+    height: min(42dvh, 320px);
+  }
+
+  .skeleton-play__submit-row {
+    padding: 0;
+  }
+
+  .skeleton-play__submit {
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-play__hud {
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      10px
+      max(12px, env(safe-area-inset-left));
+    gap: 10px;
+  }
+
+  .skeleton-play__hud-center {
+    width: min(160px, calc(100% - 128px));
+  }
+
+  .skeleton-play__round {
+    width: 96px;
+    height: 36px;
+  }
+
+  .skeleton-play__score {
+    width: 96px;
+    height: 38px;
+  }
+
+  .skeleton-play__overlay {
+    padding:
+      10px
+      max(12px, env(safe-area-inset-right))
+      calc(10px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .skeleton-play__panel-title {
+    width: 142px;
+  }
+
+  .skeleton-play__caption {
+    font-size: 0.76rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block::after,
+  .skeleton-play__panorama::after,
+  .skeleton-play__panel-map::after {
+    animation: none;
+    display: none;
+  }
+
+  .skeleton-play__caption {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Pin rests planted, no drop or ripple */
+  .skeleton-play__pin,
+  .skeleton-play__pin-shadow {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .skeleton-play__ring {
+    animation: none;
+    opacity: 0.35;
+  }
+
+  .skeleton-play__ring:nth-child(2),
+  .skeleton-play__ring:nth-child(3) {
+    display: none;
+  }
+}

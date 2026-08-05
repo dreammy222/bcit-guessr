@@ -1,6 +1,8 @@
 import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { useGameState } from './hooks/useGameState';
+import { useLoadingOverlay } from './hooks/useLoadingOverlay';
 import StartScreen from './components/StartScreen';
+import SkeletonPlayScreen from './components/SkeletonPlayScreen';
 import Timer from './components/Timer';
 import './App.css';
 import { ROUNDS_PER_GAME } from './utils/scoring';
@@ -17,8 +19,31 @@ function App() {
   const game = useGameState();
   const [mapExpanded, setMapExpanded] = useState(() => window.innerWidth >= 768);
   const [pathname, setPathname] = useState(() => window.location.pathname);
-  const isHomeScreen = !pathname.startsWith('/party') && pathname !== '/daily' && game.isReady && game.phase === 'start';
+  const [settledRoundKey, setSettledRoundKey] = useState<string | null>(null);
+
+  // Identifies the round currently on screen, so a new round re-arms the overlay.
+  const activeRoundKey = game.activeRound
+    ? `${game.activeRound.roundIndex}:${game.activeRound.photoUrl}`
+    : null;
+  // The panorama has either loaded or given up for this round.
+  const roundSettled = activeRoundKey !== null && settledRoundKey === activeRoundKey;
+  const isLoadingRound = game.isStarting || (game.phase === 'playing' && !roundSettled);
+  const { visible: showSkeleton, exiting: skeletonExiting } = useLoadingOverlay(isLoadingRound, 600);
+
+  const isHomeScreen = !pathname.startsWith('/party') && pathname !== '/daily' && game.isReady && game.phase === 'start' && !showSkeleton;
   const appClassName = isHomeScreen ? 'app app--scrollable' : 'app';
+
+  const { handleActiveRoundReady } = game;
+
+  const handlePanoramaReady = useCallback(() => {
+    setSettledRoundKey(activeRoundKey);
+    handleActiveRoundReady();
+  }, [activeRoundKey, handleActiveRoundReady]);
+
+  // Drop the overlay on failure too, otherwise it would hide the retry UI indefinitely.
+  const handlePanoramaError = useCallback(() => {
+    setSettledRoundKey(activeRoundKey);
+  }, [activeRoundKey]);
 
   const toggleMap = () => setMapExpanded((prev) => !prev);
   const navigate = useCallback((path: string, options?: { replace?: boolean }) => {
@@ -108,7 +133,7 @@ function App() {
 
   return (
     <div className={appClassName}>
-      {game.phase === 'start' && (
+      {game.phase === 'start' && !showSkeleton && (
         <StartScreen
           onStart={game.startGame}
           onStartDaily={() => navigate('/daily')}
@@ -145,7 +170,8 @@ function App() {
             <Suspense fallback={null}>
               <PanoramaViewer
                 photoUrl={game.activeRound.photoUrl}
-                onReady={game.handleActiveRoundReady}
+                onReady={handlePanoramaReady}
+                onError={handlePanoramaError}
               />
             </Suspense>
           </div>
@@ -196,6 +222,10 @@ function App() {
             />
           </Suspense>
         </div>
+      )}
+
+      {showSkeleton && (
+        <SkeletonPlayScreen mapExpanded={mapExpanded} isExiting={skeletonExiting} />
       )}
       <Analytics />
     </div>

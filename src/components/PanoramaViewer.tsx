@@ -6,6 +6,7 @@ interface PanoramaViewerProps {
   photoUrl: string;
   autoRotateDegreesPerSecond?: number;
   onReady?: () => void;
+  onError?: () => void;
 }
 
 type PanoramaLoadState = 'loading' | 'loaded' | 'error';
@@ -103,10 +104,12 @@ const PanoramaViewer: React.FC<PanoramaViewerProps> = ({
   photoUrl,
   autoRotateDegreesPerSecond = 0,
   onReady,
+  onError,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<PannellumViewer | null>(null);
   const onReadyRef = useRef(onReady);
+  const onErrorRef = useRef(onError);
   const retryTimeoutRef = useRef<number | null>(null);
   const viewerTimeoutRef = useRef<number | null>(null);
   const activePhotoUrlRef = useRef(photoUrl);
@@ -124,6 +127,10 @@ const PanoramaViewer: React.FC<PanoramaViewerProps> = ({
   useEffect(() => {
     onReadyRef.current = onReady;
   }, [onReady]);
+
+  useEffect(() => {
+    onErrorRef.current = onError;
+  }, [onError]);
 
   useEffect(() => {
     setLoadAttempt(0);
@@ -179,6 +186,7 @@ const PanoramaViewer: React.FC<PanoramaViewerProps> = ({
 
         setLoadState('error');
         setErrorMessage(getFriendlyErrorMessage());
+        onErrorRef.current?.();
       });
 
     return () => {
@@ -241,6 +249,7 @@ const PanoramaViewer: React.FC<PanoramaViewerProps> = ({
 
           setLoadState('error');
           setErrorMessage(getFriendlyErrorMessage());
+          onErrorRef.current?.();
         }, VIEWER_LOAD_TIMEOUT_MS);
 
         viewer.on('load', () => {
@@ -271,6 +280,7 @@ const PanoramaViewer: React.FC<PanoramaViewerProps> = ({
 
         setLoadState('error');
         setErrorMessage(getFriendlyErrorMessage());
+        onErrorRef.current?.();
       });
 
     return () => {
